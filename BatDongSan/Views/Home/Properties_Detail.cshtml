@@ -57,7 +57,7 @@
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-9 text-center mt-5">
                 <h1 class="heading" data-aos="fade-up">
-                    5232 California AVE. 21BC
+                    @ViewBag.list[0][1]
                 </h1>
 
                 <nav aria-label="breadcrumb"
@@ -70,7 +70,7 @@
                         </li>
                         <li class="breadcrumb-item active text-white-50"
                             aria-current="page">
-                            5232 California AVE. 21BC
+                            @ViewBag.list[0][1]
                         </li>
                     </ol>
                 </nav>
@@ -92,18 +92,26 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <h2 class="heading text-primary">5232 California Ave. 21BC</h2>
-                <p class="meta">California, United States</p>
+                <h2 class="heading text-primary"> @ViewBag.list[0][1]</h2>
+                <p class="meta">@ViewBag.list[0][5]</p>
                 <p class="text-black-50">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione
-                    laborum quo quos omnis sed magnam id, ducimus saepe, debitis error
-                    earum, iste dicta odio est sint dolorem magni animi tenetur.
+                    Diện tích: @ViewBag.list[0][4] m <br />
+                    Loại Bất động sản: @ViewBag.list[0][8] <br />
+                    Tình trạng pháp lý: @ViewBag.list[0][10] <br />
+                    Trạng thái: @ViewBag.list[0][7] <br />
                 </p>
+
+                @{
+                    // Giả sử giá trị từ ViewBag là số thập phân
+                    decimal amount = Convert.ToDecimal(ViewBag.list[0][3]);
+                    string formattedAmount = String.Format("{0:N0} VNĐ", amount);
+                }
+
+                <h3 class="text-primary">@formattedAmount</h3>
+
+
                 <p class="text-black-50">
-                    Perferendis eligendi reprehenderit, assumenda molestias nisi eius
-                    iste reiciendis porro tenetur in, repudiandae amet libero.
-                    Doloremque, reprehenderit cupiditate error laudantium qui, esse
-                    quam debitis, eum cumque perferendis, illum harum expedita.
+                    Thông tin mô tả: @ViewBag.list[0][2]
                 </p>
 
                 <div class="d-block agent-box p-5">
@@ -113,11 +121,10 @@
                              class="img-fluid" />
                     </div>
                     <div class="text">
-                        <h3 class="mb-0">Alicia Huston</h3>
-                        <div class="meta mb-3">Real Estate</div>
+                        <h3 class="mb-0">@ViewBag.listUser[0][1]</h3>
+                        <div class="meta mb-3">@ViewBag.listUser[0][5]</div>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Ratione laborum quo quos omnis sed magnam id ducimus saepe
+                            Số điện thoại liên lạc: <a href="tel:@ViewBag.listUser[0][4]"> @ViewBag.listUser[0][4]</a>
                         </p>
                         <ul class="list-unstyled social dark-hover d-flex">
                             <li class="me-1">

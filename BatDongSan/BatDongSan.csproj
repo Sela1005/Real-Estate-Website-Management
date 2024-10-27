@@ -118,12 +118,20 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\QuanLyController.cs" />
+    <Compile Include="Filters\AdminAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\demo\chart-area-demo.js" />
+    <Content Include="assets\demo\chart-bar-demo.js" />
+    <Content Include="assets\demo\chart-pie-demo.js" />
+    <Content Include="assets\demo\datatables-demo.js" />
+    <Content Include="assets\img\error-404-monochrome.svg" />
     <Content Include="css\aos.css" />
     <Content Include="css\bootstrap-grid.css" />
     <Content Include="css\bootstrap-reboot.css" />
@@ -132,6 +140,7 @@
     <Content Include="css\bootstrap\mixins\_text-truncate.css" />
     <Content Include="css\index.html" />
     <Content Include="css\style.css" />
+    <Content Include="css\styles.css" />
     <Content Include="css\tiny-slider.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\flaticon\backup.txt" />
@@ -169,8 +178,10 @@
     <Content Include="js\bootstrap.bundle.min.js" />
     <Content Include="js\counter.js" />
     <Content Include="js\custom.js" />
+    <Content Include="js\datatables-simple-demo.js" />
     <Content Include="js\index.html" />
     <Content Include="js\navbar.js" />
+    <Content Include="js\scripts.js" />
     <Content Include="js\tiny-slider.js" />
     <Content Include="scss\index.html" />
     <Content Include="Web.config" />
@@ -185,12 +196,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\DangNhap.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\flaticon\font\Flaticon.eot" />
@@ -297,6 +307,10 @@
     <Content Include="Views\Home\Services.cshtml" />
     <Content Include="Views\Home\Properties.cshtml" />
     <Content Include="Views\Home\Properties_Detail.cshtml" />
+    <Content Include="Views\QuanLy\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyBatDongSan.cshtml" />
+    <Content Include="Views\QuanLy\ThemBDS.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

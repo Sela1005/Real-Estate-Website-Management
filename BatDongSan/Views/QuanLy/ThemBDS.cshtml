@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "ThemBDS";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@{
+    System.Collections.ArrayList tenDaDangNhap = ((System.Collections.ArrayList)Session["taikhoan"]);
+}
+
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Bảng Bất động sản </h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+            <li class="breadcrumb-item active">Quản lý Bất động sản</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-body">
+                <a href="#">
+                    Thêm sản phẩm
+                </a>
+            </div>
+        </div>
+        <div class="card mb-4">
+            @*        enctype: cho phép up hình lên sever
+                method="post" : nhận diện phương thức post nếu không tự nhận là GET*@
+            <form action="~/QuanLy/ThemBDSMoi" method="post" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <td>Tiêu đề: </td>
+                        <td><input type="text" name="tieude" /></td>
+                    </tr>
+                    <tr>
+                        <td>Giá: </td>
+                        <td><input type="text" name="gia" /></td>
+                    </tr>
+                    <tr>
+                        <td>Diện tích: </td>
+                        <td><input type="text" name="dientich" /></td>
+                    </tr>
+                    <tr>
+                        <td>Vị trí: </td>
+                        <td><input type="text" name="vitri" /></td>
+                    </tr>
+                    <tr>
+                        <td>id người dùng: </td>
+                        <td><input type="text" name="idnguoidung" value="@tenDaDangNhap[0]" />@tenDaDangNhap[1]</td>
+                    </tr>
+                    <tr>
+                        <td>Loại bất động sản: </td>
+                        <td>
+                            <select name="loaibds">
+                                <option value="Căn Hộ">Căn Hộ</option>
+                                <option value="Nhà Riêng">Nhà Riêng</option>
+                                <option value="Đất Nền">Đất Nền</option>
+                                <option value="Biệt Thự">Biệt Thự</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Loại hình: </td>
+                        <td><input type="text" name="loaihinh" /></td>
+                    </tr>
+                    <tr>
+                        <td>Tình trạng pháp lý: </td>
+                        <td><input type="text" name="tinhtrangphaply" /></td>
+                    </tr>
+                    <tr>
+                        <td>Mô tả :</td>
+                        <td><textarea name="mota"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Hình minh họa:</td>
+                        <td><input type="file" name="hinh" /></td>
+                    </tr>
+                        <td></td>
+                        <td><input type="submit" value="Thêm Bất động sản" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</main>
+
