@@ -2,6 +2,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <div class="site-mobile-menu site-navbar-target">
     <div class="site-mobile-menu-header">
         <div class="site-mobile-menu-close">
@@ -13,8 +14,6 @@
 
 <nav class="site-nav">
     <div class="container">
-
-        
         <div class="menu-bg-wrap">
             <div class="site-navigation">
                 <a href="~/Home/Index" class="logo m-0 float-start">HOMEW</a>
@@ -68,59 +67,16 @@
                 <h1 class="heading" data-aos="fade-up">
                     Cách dễ nhất để tìm ngôi nhà mơ ước của bạn
                 </h1>
+
                 <form action="~/Home/TimKiemTieuDeBDS"
                       class="narrow-w form-search d-flex align-items-stretch mb-3"
                       data-aos="fade-up"
-                      data-aos-delay="200"
-                      onsubmit="return kiemtraTimKiem()">
+                      data-aos-delay="200">
                     <input type="text" name="TieuDe"
                            class="form-control px-4"
-                           id="dulieutimkiem"
                            placeholder="Your ZIP code or City. e.g. New York" />
                     <button type="submit" class="btn btn-primary">Tìm</button>
                 </form>
-                <!-- Toast thông báo lỗi -->
-                <div id="thongbaotimkiem" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" style="display: none;">
-                    <div class="d-flex">
-                        <div class="toast-body" id="toastMessage">
-                            Bạn chưa nhập thông tin tìm kiếm.
-                        </div>
-                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                </div>
-
-                <script>
-                    function kiemtraTimKiem() {
-                        var tieude = document.getElementById("dulieutimkiem").value.trim();
-                        var toast = document.getElementById("thongbaotimkiem");
-                        var toastMessage = document.getElementById("toastMessage");
-
-                        // Kiểm tra nếu người dùng chưa nhập gì
-                        if (tieude == "") {
-                            toastMessage.innerHTML = "Bạn chưa nhập thông tin tìm kiếm.";
-                            toast.style.display = "block";
-                            var toastElement = new bootstrap.Toast(toast);
-                            toastElement.show();
-                            return false; // Ngừng gửi form
-                        }
-
-                        // Kiểm tra nếu thông tin nhập vào không phải là chữ (tùy theo yêu cầu)
-                        if (!isNaN(tieude)) {
-                            toastMessage.innerHTML = "Vui lòng nhập tên địa điểm hoặc mã bưu chính, không phải số.";
-                            toast.style.display = "block";
-                            var toastElement = new bootstrap.Toast(toast);
-                            toastElement.show();
-                            return false; // Ngừng gửi form
-                        }
-
-                        // Nếu tất cả điều kiện đều ổn, cho phép gửi form
-                        return true;
-                    }
-                </script>
-
-
-
-
 
 
 
@@ -176,6 +132,239 @@
                                 </div>
                             </div>}
 
+                        <!-- .item -->
+
+                        <div class="property-item">
+                            <a href="~/Home/properties_detail" class="img">
+                                <img src="~/images/img_2.jpg" alt="Image" class="img-fluid" />
+                            </a>
+
+                            <div class="property-content">
+                                <div class="price mb-2"><span>$1,291,000</span></div>
+                                <div>
+                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                    <span class="city d-block mb-3">California, USA</span>
+
+                                    <div class="specs d-flex mb-4">
+                                        <span class="d-block d-flex align-items-center me-3">
+                                            <span class="icon-bed me-2"></span>
+                                            <span class="caption">2 beds</span>
+                                        </span>
+                                        <span class="d-block d-flex align-items-center">
+                                            <span class="icon-bath me-2"></span>
+                                            <span class="caption">2 baths</span>
+                                        </span>
+                                    </div>
+
+                                    <a href="~/Home/properties_detail"
+                                       class="btn btn-primary py-2 px-3">Xem Chi Tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .item -->
+
+                        <div class="property-item">
+                            <a href="~/Home/properties_detail" class="img">
+                                <img src="~/images/img_3.jpg" alt="Image" class="img-fluid" />
+                            </a>
+
+                            <div class="property-content">
+                                <div class="price mb-2"><span>$1,291,000</span></div>
+                                <div>
+                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                    <span class="city d-block mb-3">California, USA</span>
+
+                                    <div class="specs d-flex mb-4">
+                                        <span class="d-block d-flex align-items-center me-3">
+                                            <span class="icon-bed me-2"></span>
+                                            <span class="caption">2 beds</span>
+                                        </span>
+                                        <span class="d-block d-flex align-items-center">
+                                            <span class="icon-bath me-2"></span>
+                                            <span class="caption">2 baths</span>
+                                        </span>
+                                    </div>
+
+                                    <a href="~/Home/properties_detail"
+                                       class="btn btn-primary py-2 px-3">Xem Chi Tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .item -->
+
+                        <div class="property-item">
+                            <a href="~/Home/properties_detail" class="img">
+                                <img src="~/images/img_4.jpg" alt="Image" class="img-fluid" />
+                            </a>
+
+                            <div class="property-content">
+                                <div class="price mb-2"><span>$1,291,000</span></div>
+                                <div>
+                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                    <span class="city d-block mb-3">California, USA</span>
+
+                                    <div class="specs d-flex mb-4">
+                                        <span class="d-block d-flex align-items-center me-3">
+                                            <span class="icon-bed me-2"></span>
+                                            <span class="caption">2 beds</span>
+                                        </span>
+                                        <span class="d-block d-flex align-items-center">
+                                            <span class="icon-bath me-2"></span>
+                                            <span class="caption">2 baths</span>
+                                        </span>
+                                    </div>
+
+                                    <a href="~/Home/properties_detail"
+                                       class="btn btn-primary py-2 px-3">Xem Chi Tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .item -->
+
+                        <div class="property-item">
+                            <a href="~/Home/properties_detail" class="img">
+                                <img src="~/images/img_5.jpg" alt="Image" class="img-fluid" />
+                            </a>
+
+                            <div class="property-content">
+                                <div class="price mb-2"><span>$1,291,000</span></div>
+                                <div>
+                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                    <span class="city d-block mb-3">California, USA</span>
+
+                                    <div class="specs d-flex mb-4">
+                                        <span class="d-block d-flex align-items-center me-3">
+                                            <span class="icon-bed me-2"></span>
+                                            <span class="caption">2 beds</span>
+                                        </span>
+                                        <span class="d-block d-flex align-items-center">
+                                            <span class="icon-bath me-2"></span>
+                                            <span class="caption">2 baths</span>
+                                        </span>
+                                    </div>
+
+                                    <a href="~/Home/properties_detail"
+                                       class="btn btn-primary py-2 px-3">Xem Chi Tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .item -->
+
+                        <div class="property-item">
+                            <a href="~/Home/properties_detail" class="img">
+                                <img src="~/images/img_6.jpg" alt="Image" class="img-fluid" />
+                            </a>
+
+                            <div class="property-content">
+                                <div class="price mb-2"><span>$1,291,000</span></div>
+                                <div>
+                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                    <span class="city d-block mb-3">California, USA</span>
+
+                                    <div class="specs d-flex mb-4">
+                                        <span class="d-block d-flex align-items-center me-3">
+                                            <span class="icon-bed me-2"></span>
+                                            <span class="caption">2 beds</span>
+                                        </span>
+                                        <span class="d-block d-flex align-items-center">
+                                            <span class="icon-bath me-2"></span>
+                                            <span class="caption">2 baths</span>
+                                        </span>
+                                    </div>
+
+                                    <a href="~/Home/properties_detail"
+                                       class="btn btn-primary py-2 px-3">Xem Chi Tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .item -->
+
+                        <div class="property-item">
+                            <a href="~/Home/properties_detail" class="img">
+                                <img src="~/images/img_7.jpg" alt="Image" class="img-fluid" />
+                            </a>
+
+                            <div class="property-content">
+                                <div class="price mb-2"><span>$1,291,000</span></div>
+                                <div>
+                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                    <span class="city d-block mb-3">California, USA</span>
+
+                                    <div class="specs d-flex mb-4">
+                                        <span class="d-block d-flex align-items-center me-3">
+                                            <span class="icon-bed me-2"></span>
+                                            <span class="caption">2 beds</span>
+                                        </span>
+                                        <span class="d-block d-flex align-items-center">
+                                            <span class="icon-bath me-2"></span>
+                                            <span class="caption">2 baths</span>
+                                        </span>
+                                    </div>
+
+                                    <a href="~/Home/properties_detail"
+                                       class="btn btn-primary py-2 px-3">Xem Chi Tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .item -->
+
+                        <div class="property-item">
+                            <a href="~/Home/properties_detail" class="img">
+                                <img src="~/images/img_8.jpg" alt="Image" class="img-fluid" />
+                            </a>
+
+                            <div class="property-content">
+                                <div class="price mb-2"><span>$1,291,000</span></div>
+                                <div>
+                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                    <span class="city d-block mb-3">California, USA</span>
+
+                                    <div class="specs d-flex mb-4">
+                                        <span class="d-block d-flex align-items-center me-3">
+                                            <span class="icon-bed me-2"></span>
+                                            <span class="caption">2 beds</span>
+                                        </span>
+                                        <span class="d-block d-flex align-items-center">
+                                            <span class="icon-bath me-2"></span>
+                                            <span class="caption">2 baths</span>
+                                        </span>
+                                    </div>
+
+                                    <a href="~/Home/properties_detail"
+                                       class="btn btn-primary py-2 px-3">Xem Chi Tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .item -->
+
+                        <div class="property-item">
+                            <a href="~/Home/properties_detail" class="img">
+                                <img src="~/images/img_1.jpg" alt="Image" class="img-fluid" />
+                            </a>
+
+                            <div class="property-content">
+                                <div class="price mb-2"><span>$1,291,000</span></div>
+                                <div>
+                                    <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                    <span class="city d-block mb-3">California, USA</span>
+
+                                    <div class="specs d-flex mb-4">
+                                        <span class="d-block d-flex align-items-center me-3">
+                                            <span class="icon-bed me-2"></span>
+                                            <span class="caption">2 beds</span>
+                                        </span>
+                                        <span class="d-block d-flex align-items-center">
+                                            <span class="icon-bath me-2"></span>
+                                            <span class="caption">2 baths</span>
+                                        </span>
+                                    </div>
+
+                                    <a href="~/Home/properties_detail"
+                                       class="btn btn-primary py-2 px-3">Xem Chi Tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .item -->
                     </div>
 
                     <div id="property-nav"
