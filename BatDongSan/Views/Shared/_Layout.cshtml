@@ -15,7 +15,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     @Styles.Render("~/cssa")
     @Styles.Render("~/cssb")
     @Styles.Render("~/cssc")
@@ -24,7 +28,151 @@
 
 </head>
 <body>
+
+    <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close">
+                <span class="icofont-close js-menu-toggle"></span>
+            </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <nav class="site-nav">
+        <div class="container">
+
+
+            <div class="menu-bg-wrap">
+                <div class="site-navigation">
+                    <a href="~/Home/Index" class="logo m-0 float-start">HOMEW</a>
+
+                    <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
+                        <li class="active"><a href="~/Home/Index">Home</a></li>
+                       @* <li class="has-children">
+                            <a href="~/Home/Properties">Bất Động Sản</a>
+                            <ul class="dropdown">
+                                <li><a href="#">Mua Bất Động Sản</a></li>
+                                <li><a href="#">Bán Bất Động Sản</a></li>
+                                <li class="has-children">
+                                    <a href="#">Danh sách</a>
+                                    <ul class="dropdown">
+                                        <li><a href="#">Menu Một</a></li>
+                                        <li><a href="#">Menu Hai</a></li>
+                                        <li><a href="#">Menu Ba</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>*@
+                        <li><a href="~/Home/Dangtin">Đăng tin</a></li>
+                        <li><a href="~/Home/quanlytindang">Quản lý tin đăng</a></li>
+                        <li class="has-children">
+                            @if (Session["taikhoan"] != null)
+                            {
+                                // Lấy tên người dùng từ session
+                                System.Collections.ArrayList tenDaDangNhap = (System.Collections.ArrayList)Session["taikhoan"];
+                                string username = tenDaDangNhap[1].ToString();  // Giả sử tên người dùng nằm ở vị trí 0
+                                <a href="~/Home/DangNhap">@username</a>
+                                if ((string)tenDaDangNhap[5] == "Admin")
+                                {
+                                <ul class="dropdown">
+                                    <li><a href="~/quanly">Quản lý hệ thống</a></li>
+                                    <li><a href="~/home/thongtinnguoidung?id=@tenDaDangNhap[0]">Thông tin cá nhân</a></li>
+                                    <li>
+                                        <!-- Tạo form POST để gọi hành động XulyDangXuat -->
+                                        @using (Html.BeginForm("XulyDangXuat", "Home", FormMethod.Post))
+                                        {
+                                            <a class="dropdown-item" href="javascript:void(0)" onclick="this.closest('form').submit();">Đăng xuất</a>
+                                        }
+                                    </li>
+                                </ul>
+                                }
+                                else
+                                {
+                                    <ul class="dropdown">
+                                        <li><a href="~/home/thongtinnguoidung?id=@tenDaDangNhap[0]">Thông tin cá nhân</a></li>
+                                        <li>
+                                            <!-- Tạo form POST để gọi hành động XulyDangXuat -->
+                                            @using (Html.BeginForm("XulyDangXuat", "Home", FormMethod.Post))
+                                            {
+                                                <a class="dropdown-item" href="javascript:void(0)" onclick="this.closest('form').submit();">Đăng xuất</a>
+                                            }
+                                        </li>
+                                    </ul>
+                                }
+                                
+                            }
+                            else
+                            {
+                                <a href="~/Home/DangNhap">Đăng nhập</a>
+                            }
+                        </li>
+                    </ul>
+
+                    <a href="#"
+                       class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none"
+                       data-toggle="collapse"
+                       data-target="#main-navbar">
+                        <span></span>
+                    </a>
+                    <div class="position-fixed top-0 start-0 p-3" style="z-index: 11">
+                        <div id="liveToastSussess" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="d-flex">
+                                <div class="toast-body">
+                                    @if (TempData["SuccessMessage"] != null)
+                                    {
+                                        @TempData["SuccessMessage"]
+                                    }
+                                </div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="position-fixed top-0 start-0 p-3" style="z-index: 11">
+                        <div id="liveToastError" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="d-flex">
+                                <div class="toast-body">
+                                    @if (TempData["ErrorMessage"] != null)
+                                    {
+                                        @TempData["ErrorMessage"]
+                                    }
+                                </div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Kiểm tra và hiển thị thông báo thành công (SuccessMessage)
+    var successMessage = "@TempData["SuccessMessage"]";
+    if (successMessage !== "") {
+        var successToastElement = document.getElementById('liveToastSussess');
+        var successToast = new bootstrap.Toast(successToastElement);
+        successToast.show();  // Hiển thị Toast thành công
+    }
+
+    // Kiểm tra và hiển thị thông báo lỗi (ErrorMessage)
+    var errorMessage = "@TempData["ErrorMessage"]";
+    if (errorMessage !== "") {
+        var errorToastElement = document.getElementById('liveToastError');
+        var errorToast = new bootstrap.Toast(errorToastElement);
+        errorToast.show();  // Hiển thị Toast lỗi
+    }
+});
+                    </script>
+                </div>
+            </div>
+        </div>
+    </nav>
     @RenderBody()
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="~/assets/demo/chart-area-demo.js"></script>
+    <script src="~/assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="~/js/datatables-simple-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     @Scripts.Render("~/jsb")
     @Scripts.Render("~/jsc")

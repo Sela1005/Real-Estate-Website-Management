@@ -6,47 +6,47 @@
 
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Bảng Bất động sản </h1>
+        <h1 class="mt-4">Quản lý Tin Đăng </h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-            <li class="breadcrumb-item active">Quản lý Bất động sản</li>
+            <li class="breadcrumb-item"><a href="~/QuanLy/Index">Bảng điều khiển</a></li>
+            <li class="breadcrumb-item active">Quản lý Tin Đăng</li>
         </ol>
         <div class="card mb-4">
             <div class="card-body">
-                <a href="~/QuanLy/ThemBDS">
-                    Thêm sản phẩm
-                </a>
+                <a class="btn btn-primary" href="~/QuanLy/ThemBDS" role="button">Thêm Tin Đăng</a>
             </div>
         </div>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                Bảng bất động sản
+                Bảng Tin Đăng
             </div>
             <div class="card-body">
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Tiêu đề</th>
                             <th>Giá</th>
                             <th>Diên tích</th>
                             <th>Vị trí</th>
                             <th>Loại BĐS</th>
                             <th>Tình trạng pháp lý</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày cập nhật</th>
                             <th>Sửa</th>
                             <th>Xóa</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
                             <th>Tiêu đề</th>
                             <th>Giá</th>
                             <th>Diên tích</th>
                             <th>Vị trí</th>
                             <th>Loại BĐS</th>
                             <th>Tình trạng pháp lý</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày cập nhật</th>
                             <th>Sửa</th>
                             <th>Xóa</th>
                         </tr>
@@ -55,19 +55,126 @@
                         @foreach (var a in ViewBag.listBDS)
                         {
                             <tr>
-                                <td>@a[0]</td>
-                                <td>@a[1]</td>
-                                <td>@a[3]</td>
-                                <td>@a[4]</td>
+                                <td>
+                                    @if (a[1].Length > 50)
+                                    {
+                                        @Html.Raw(string.Concat(a[1].Substring(0, 50), "..."))
+                                    }
+                                    else
+                                    {
+                                        @a[1]
+                                    }
+                                </td>
+                                @{
+                                    //Rút gọn số tiền
+                                    decimal amount = Convert.ToDecimal(@a[3]);
+
+                                    string formattedAmount;
+                                    if (amount >= 1_000_000_000) // Nếu giá trị >= 1 tỷ
+                                    {
+                                        decimal billions = Math.Round(amount / 1_000_000_000, 1);
+                                        formattedAmount = billions % 1 == 0 ? $"{billions:N0} Tỷ" : $"{billions:N1} Tỷ";
+                                    }
+                                    else if (amount >= 100_000_000) // Nếu giá trị >= 100 triệu
+                                    {
+                                        decimal hundredMillions = Math.Round(amount / 100_000_000, 1);
+                                        formattedAmount = hundredMillions % 1 == 0 ? $"{hundredMillions:N0} Trăm triệu" : $"{hundredMillions:N1} Trăm triệu";
+                                    }
+                                    else if (amount >= 1_000_000) // Nếu giá trị >= 1 triệu
+                                    {
+                                        decimal millions = Math.Round(amount / 1_000_000, 1);
+                                        formattedAmount = millions % 1 == 0 ? $"{millions:N0} Triệu" : $"{millions:N1} Triệu";
+                                    }
+                                    else
+                                    {
+                                        formattedAmount = $"{amount:N0} VNĐ";
+                                    }
+                                }
+                                <td>@formattedAmount</td>
+                                @* Chuyển đổi giá trị diện tích và thêm "m²" *@
+                                @{
+                                    decimal area = Convert.ToDecimal(a[4]);
+
+                                    // Làm tròn diện tích về số nguyên để không có phần thập phân
+                                    string formattedArea = String.Format("{0} m²", Math.Round(area));
+                                }
+                                <td>@formattedArea</td>
                                 <td>@a[5]</td>
-                                <td>@a[6]</td>
+                                <td>@a[8]</td>
                                 <td>@a[10]</td>
-                                <th>Sửa</th>
-                                <th>Xóa</th>
+                                <td>@a[12]</td>
+                                <td>@a[13]</td>
+                                <th><a class="bi bi-pencil" href="~/Quanly/SuaBDS?id=@a[0]&idNguoiDung=@a[6]"></a> </th>
+                                <th>
+                                    <a style="cursor:pointer" onclick="confirmDelete('@a[0]')" class="bi bi-trash"></a>
+                                </th>
+
                             </tr>
                         }
+
                     </tbody>
+
+
                 </table>
+                <!-- Modal Popup (Ẩn ban đầu) -->
+                <!--<div id="confirmModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h4>Xác nhận xóa</h4>
+            <p>Bạn có chắc chắn muốn xóa mục này không?</p>
+            <button id="confirmDeleteBtn" class="btn btn-danger">Xóa</button>
+            <button onclick="closeModal()" class="btn btn-secondary">Hủy</button>
+        </div>
+    </div>-->
+                <div class="modal" tabindex="-1" id="confirmModal" style="display:none">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Xóa Bất Động Sản</h5>
+                                <button onclick="closeModal()" type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Bạn có chắc muốn xóa Bất Động Sản này không?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button onclick="closeModal()" type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">Hủy</button>
+                                <button id="confirmDeleteBtn" type="button" class="btn btn-primary" data-mdb-ripple-init>Xóa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    // Hàm để mở popup xác nhận
+                    function confirmDelete(id) {
+                        // Lưu id mục cần xóa vào biến toàn cục
+                        window.deleteItemId = id;
+                        // Hiển thị modal popup
+                        document.getElementById('confirmModal').style.display = 'block';
+                    }
+
+                    // Hàm để đóng popup
+                    function closeModal() {
+                        document.getElementById('confirmModal').style.display = 'none';
+                    }
+
+                    // Hàm xóa mục
+                    document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+                        // Gửi yêu cầu xóa bằng phương thức POST
+                        var form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '@Url.Action("XoaBDS", "Quanly")'; // Địa chỉ action của controller
+
+                        // Tạo input ẩn để gửi id của mục cần xóa
+                        var input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'id'; // Tên của tham số trong controller
+                        input.value = window.deleteItemId;
+
+                        form.appendChild(input);
+                        document.body.appendChild(form);
+                        form.submit(); // Gửi form với phương thức POST
+                    });
+                </script>
+
             </div>
         </div>
     </div>

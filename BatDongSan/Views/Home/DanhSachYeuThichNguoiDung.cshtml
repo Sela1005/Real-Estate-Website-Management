@@ -1,0 +1,125 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="hero page-inner overlay"
+     style="background-image: url('/images/hero_bg_1.jpg');height:50vh">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center mt-5">
+                <h1 class="heading" data-aos="fade-up">Danh Sách tin bạn đã yêu thích</h1>
+
+                <nav aria-label="breadcrumb"
+                     data-aos="fade-up"
+                     data-aos-delay="200">
+                    <ol class="breadcrumb text-center justify-content-center">
+                        <li class="breadcrumb-item"><a href="~/Home/index">Home</a></li>
+                        <li class="breadcrumb-item active text-white-50"
+                            aria-current="page">
+                            Danh Sách Tin Yêu Thích
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<main>
+    <div class="container-fluid px-4">
+        <ol class="breadcrumb mb-4">
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Bảng tin Yêu thích
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Tiêu đề</th>
+                            <th>Giá</th>
+                            <th>Diện tích</th>
+                            <th>Vị trí</th>
+                            <th>Tình trạng pháp lý</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Tiêu đề</th>
+                            <th>Giá</th>
+                            <th>Diện tích</th>
+                            <th>Vị trí</th>
+                            <th>Tình trạng pháp lý</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @if (ViewBag.listBDS != null && ViewBag.listBDS.Count > 0)
+                        {
+                            foreach (var bds in ViewBag.listBDS)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (bds.Count > 1 && bds[1] != null && bds[1].ToString().Length > 50)
+                                        {
+                                            <a href="~/Home/properties_detail?id=@bds[0]&idNguoiDung=@bds[6]">@Html.Raw(string.Concat(bds[1].Substring(0, 50), "..."))</a>
+                                               
+                                          }
+                                         else
+                                          {
+                                            <a href="~/Home/properties_detail?id=@bds[0]&idNguoiDung=@bds[6]">@bds[1]</a>
+
+                                           }
+</td>
+                                    <td>@GetFormattedAmount(Convert.ToDecimal(bds[3]))</td>
+                                    <td>@GetFormattedArea(Convert.ToDecimal(bds[4]))</td>
+                                    <td>@bds[5]</td>
+                                    <td>@bds[10]</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="fs-4" style="text-align:center; color: red">Bạn chưa "Yêu thích" Tin đăng nào cả!</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                @functions {
+                    private string GetFormattedAmount(decimal amount)
+                    {
+                        if (amount >= 1_000_000_000) // Nếu giá trị >= 1 tỷ
+                        {
+                            decimal billions = Math.Round(amount / 1_000_000_000, 1);
+                            return billions % 1 == 0 ? $"{billions:N0} Tỷ" : $"{billions:N1} Tỷ";
+                        }
+                        else if (amount >= 100_000_000) // Nếu giá trị >= 100 triệu
+                        {
+                            decimal hundredMillions = Math.Round(amount / 100_000_000, 1);
+                            return hundredMillions % 1 == 0 ? $"{hundredMillions:N0} Trăm triệu" : $"{hundredMillions:N1} Trăm triệu";
+                        }
+                        else if (amount >= 1_000_000) // Nếu giá trị >= 1 triệu
+                        {
+                            decimal millions = Math.Round(amount / 1_000_000, 1);
+                            return millions % 1 == 0 ? $"{millions:N0} Triệu" : $"{millions:N1} Triệu";
+                        }
+                        else
+                        {
+                            return $"{amount:N0} VNĐ";
+                        }
+                    }
+
+                    private string GetFormattedArea(decimal area)
+                    {
+                        return $"{Math.Round(area)} m²"; // Làm tròn diện tích về số nguyên
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</main>
+
+
+

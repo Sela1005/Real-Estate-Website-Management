@@ -1,0 +1,95 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("SUANGUOIDUNG", "Quanly", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container rounded bg-white mb-5">
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <!-- Hiển thị hình ảnh hiện tại của người dùng -->
+                    <img class="rounded-circle mt-5" style=" width:150px" src="~/images/@ViewBag.listUser[0][6]" />
+                    <input type="hidden" name="existingImage" value="@ViewBag.listUser[0][6]" />
+                </div>
+            </div>
+            <div class="col-md-5 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Thông tin cá nhân</h4>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label class="labels">Tên</label>
+                            <input type="text" name="tennguoidung" id="tennguoidung" class="form-control" placeholder="nhập tên" value="@ViewBag.listUser[0][1]" />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="labels">Số điện thoại</label>
+                            <input type="text" name="sodienthoai" id="sodienthoai" class="form-control" placeholder="nhập số điện thoại" value="@ViewBag.listUser[0][4]" />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Email</label>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="nhập email" value="@ViewBag.listUser[0][3]" />
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="labels">Hình ảnh</label>
+                            <input type="file" name="hinh" class="form-control" />
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label for="vaitro" class="form-label">Vai trò</label>
+                            <select class="form-select" aria-label="Default select example" name="vaitro" id="vaitro">
+                                <option value="">Thay đổi vai trò người dùng</option>
+                                <option value="Khách Hàng" @if (ViewBag.listUser[0][5] == "Khách Hàng") { <text> selected</text> }>Khách Hàng</option>
+                                <option value="Môi Giới" @if (ViewBag.listUser[0][5] == "Môi Giới") { <text> selected</text> }>Môi Giới</option>
+                                <option value="Admin" @if (ViewBag.listUser[0][5] == "Admin") { <text> selected</text> }>Admin</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="idnguoidung" value="@ViewBag.listUser[0][0]" />
+                    </div>
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary profile-button" type="submit">Cập nhật thông tin</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function validateForm() {
+        // Kiểm tra tên người dùng
+        var tennguoidung = document.getElementById("tennguoidung").value;
+        if (tennguoidung == "") {
+            alert("Tên không được để trống.");
+            return false;
+        }
+
+        // Kiểm tra số điện thoại
+        var sodienthoai = document.getElementById("sodienthoai").value;
+        if (sodienthoai == "") {
+            alert("Số điện thoại không được để trống.");
+            return false;
+        }
+
+        // Kiểm tra email
+        var email = document.getElementById("email").value;
+        if (email == "") {
+            alert("Email không được để trống.");
+            return false;
+        }
+        var vaitro = document.getElementById("vaitro").value;
+        if (vaitro == "") {
+            alert("Vai trò không được để trống.");
+            return false;
+        }
+
+        // Nếu tất cả các trường đều hợp lệ, cho phép form được gửi đi
+        return true;
+    }
+</script>
+
+
+
+

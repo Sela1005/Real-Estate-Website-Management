@@ -3,53 +3,6 @@
 }
 
 
-<div class="site-mobile-menu site-navbar-target">
-    <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close">
-            <span class="icofont-close js-menu-toggle"></span>
-        </div>
-    </div>
-    <div class="site-mobile-menu-body"></div>
-</div>
-
-<nav class="site-nav">
-    <div class="container">
-        <div class="menu-bg-wrap">
-            <div class="site-navigation">
-                <a href="~/Home/index" class="logo m-0 float-start">Property</a>
-
-                <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
-                    <li><a href="~/Home/index">Home</a></li>
-                    <li class="has-children">
-                        <a href="~/Home/Properties">Properties</a>
-                        <ul class="dropdown">
-                            <li><a href="#">Buy Property</a></li>
-                            <li><a href="#">Sell Property</a></li>
-                            <li class="has-children">
-                                <a href="#">Dropdown</a>
-                                <ul class="dropdown">
-                                    <li><a href="#">Sub Menu One</a></li>
-                                    <li><a href="#">Sub Menu Two</a></li>
-                                    <li><a href="#">Sub Menu Three</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="~/Home/Services">Services</a></li>
-                    <li><a href="~/Home/about">About</a></li>
-                    <li><a href="~/Home/contact">Contact Us</a></li>
-                </ul>
-
-                <a href="#"
-                   class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none"
-                   data-toggle="collapse"
-                   data-target="#main-navbar">
-                    <span></span>
-                </a>
-            </div>
-        </div>
-    </div>
-</nav>
 
 <div class="hero page-inner overlay"
      style="background-image: url('/images/hero_bg_3.jpg')">
@@ -85,15 +38,15 @@
             <div class="col-lg-7">
                 <div class="img-property-slide-wrap">
                     <div class="img-property-slide">
-                        <img src="~/images/img_1.jpg" alt="Image" class="img-fluid" />
-                        <img src="~/images/img_2.jpg" alt="Image" class="img-fluid" />
-                        <img src="~/images/img_3.jpg" alt="Image" class="img-fluid" />
+                        <img src="~/images/@ViewBag.list[0][11]" alt="Image" class="img-fluid" style=" height: 700px" />
+                       @* <img src="~/images/img_2.jpg" alt="Image" class="img-fluid" />
+                        <img src="~/images/img_3.jpg" alt="Image" class="img-fluid" />*@
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
                 <h2 class="heading text-primary"> @ViewBag.list[0][1]</h2>
-                <p class="meta">@ViewBag.list[0][5]</p>
+                <p class="meta">Khu vực: @ViewBag.list[0][5]</p>
                 <p class="text-black-50">
                     Diện tích: @ViewBag.list[0][4] m <br />
                     Loại Bất động sản: @ViewBag.list[0][8] <br />
@@ -110,36 +63,118 @@
                 <h3 class="text-primary">@formattedAmount</h3>
 
 
-                <p class="text-black-50">
-                    Thông tin mô tả: @ViewBag.list[0][2]
-                </p>
+                <p class="text-black-50 text-wrap " style="word-break: break-all; white-space: pre-line;">
+                    Thông tin mô tả: <br /> </p>
+                <p class="text-wrap " style="word-break: break-all; white-space: pre-line; padding: 10px; border: 1px solid; border-radius: 10px; color: black; word-wrap: break-word ">
+                    @Html.Raw(ViewBag.list[0][2].ToString().Replace("\n", "<br/>"))\
+                <p/>
+                @if (Session["taikhoan"] != null)
+                {
+                    System.Collections.ArrayList tenDaDangNhap = (System.Collections.ArrayList)Session["taikhoan"];
+                    if (ViewBag.listKiemTraYeuThich != null && ViewBag.listKiemTraYeuThich.Count > 0)
+                    {
+                        <form action="@Url.Action("HuyYeuThichTin", "Home")" method="post">
+                            <input type="hidden" name="idchubds" value="@ViewBag.list[0][6]" />
+                            <input type="hidden" name="id" value="@ViewBag.listKiemTraYeuThich[0][0]" />
+                            <input type="hidden" name="idbatdongsan" value="@ViewBag.list[0][0]" />
+                            <button type="submit" class="btn btn-outline-primary bi bi-heart"
+                                    style="border: 1px #005555 solid !important; gap: 5px; color: #ffffff; background-color: #005555;">
+                                Đã Yêu Thích
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form action="@Url.Action("YeuTichTin", "Home")" method="post">
+                            <input type="hidden" name="id" value="@tenDaDangNhap[0]" />
+                            <input type="hidden" name="idchubds" value="@ViewBag.list[0][6]" />
+                            <input type="hidden" name="idbatdongsan" value="@ViewBag.list[0][0]" />
+                            <button type="submit" class="btn btn-outline-primary bi bi-heart"
+                                    style="border: 1px #005555 solid !important; gap:5px;">
+                                Yêu thích
+                            </button>
+                        </form>
+
+                    }
+
+
+                }
+                @*<style>
+            /* CSS cho trạng thái bình thường */
+            .btn-outline-primary {
+                color: #005555;
+            }
+
+            /* CSS cho trạng thái đã chọn */
+            .liked {
+                color: #ffffff;
+                background-color: #005555;
+                border: 1px #005555 solid !important;
+            }
+        </style>
+        <script>
+            // JavaScript để thay đổi trạng thái nút sau khi nhấn
+            document.getElementById("likeButton").addEventListener("click", function (event) {
+                event.preventDefault(); // Ngăn chặn gửi form hoặc thực hiện các hành động mặc định
+
+                // Thêm hoặc gỡ bỏ lớp "liked" để thay đổi giao diện
+                this.classList.toggle("liked");
+
+                // Cập nhật nội dung nút thành "Đã yêu thích"
+                if (this.classList.contains("liked")) {
+                    this.innerHTML = " Đã yêu thích";
+                } else {
+                    this.innerHTML = " Yêu thích";
+                }
+
+                // (Tùy chọn) Thực hiện thêm mã gửi yêu cầu POST để lưu trạng thái yêu thích vào cơ sở dữ liệu.
+            });
+        </script>*@
 
                 <div class="d-block agent-box p-5">
                     <div class="img mb-4">
-                        <img src="~/images/person_2-min.jpg"
-                             alt="Image"
-                             class="img-fluid" />
+                        @if (ViewBag.listUser != null && ViewBag.listUser.Count > 0 && ViewBag.listUser[0].Count > 6)
+                        {
+                            if (ViewBag.listUser[0][6] != null && ViewBag.listUser[0][6].ToString().Length > 0)
+                            {
+                                <img src="~/images/@ViewBag.listUser[0][6]"
+                                     alt="Image"
+                                     class="img-fluid" />
+                            }
+                            else
+                            {
+                                <img src="~/images/person_2-min.jpg"
+                                     alt="Image"
+                                     class="img-fluid" />
+                            }
+                        }
+                        else
+                        {
+                            <img src="~/images/person_2-min.jpg"
+                                 alt="Image"
+                                 class="img-fluid" />
+                        }
+                        @* @if (@ViewBag.listUser[0][6] != null && @ViewBag.listUser[0][6].ToString().Length > 0)
+                {
+                    <img src="~/images/@ViewBag.listUser[0][6]"
+                         alt="Image"
+                         class="img-fluid" />
+                }
+                else
+                {
+                    <img src="~/images/person_2-min.jpg"
+                         alt="Image"
+                         class="img-fluid" />
+                }*@
+
                     </div>
+
                     <div class="text">
                         <h3 class="mb-0">@ViewBag.listUser[0][1]</h3>
                         <div class="meta mb-3">@ViewBag.listUser[0][5]</div>
                         <p>
                             Số điện thoại liên lạc: <a href="tel:@ViewBag.listUser[0][4]"> @ViewBag.listUser[0][4]</a>
                         </p>
-                        <ul class="list-unstyled social dark-hover d-flex">
-                            <li class="me-1">
-                                <a href="#"><span class="icon-instagram"></span></a>
-                            </li>
-                            <li class="me-1">
-                                <a href="#"><span class="icon-twitter"></span></a>
-                            </li>
-                            <li class="me-1">
-                                <a href="#"><span class="icon-facebook"></span></a>
-                            </li>
-                            <li class="me-1">
-                                <a href="#"><span class="icon-linkedin"></span></a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>

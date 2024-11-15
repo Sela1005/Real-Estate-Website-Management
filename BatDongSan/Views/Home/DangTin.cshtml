@@ -1,0 +1,166 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="hero page-inner overlay"
+     style="background-image: url('/images/hero_bg_1.jpg')">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center mt-5">
+                <h1 class="heading" data-aos="fade-up">Đăng tin</h1>
+
+                <nav aria-label="breadcrumb"
+                     data-aos="fade-up"
+                     data-aos-delay="200">
+                    <ol class="breadcrumb text-center justify-content-center">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active text-white-50"
+                            aria-current="page">
+                            Đăng tin
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    System.Collections.ArrayList tenDaDangNhap = ((System.Collections.ArrayList)Session["taikhoan"]);
+}
+
+<main>
+    <div class="container-fluid px-4 mt-3">
+        <div class="card mb-4">
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-lg-10 col-md-7 mx-auto">
+                        <form action="~/Home/DangTin" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                            <h5 class="card-title text-center mb-5 fw-light fs-4">I. Thông tin cơ bản</h5>
+                            <div class="mb-3">
+                                <label for="tieude" class="form-label fs-6">Tên dự án</label>
+                                <input type="text" class="form-control" name="tieude" id="tieude">
+                            </div>
+                            <div class="mb-3">
+                                <label for="gia" class="form-label fs-6">Giá dự án</label>
+                                <input type="text" class="form-control" name="gia" id="gia">
+                            </div>
+                            <div class="mb-3">
+                                <label for="dientich" class="form-label fs-6">Diện tích dự án</label>
+                                <input type="text" class="form-control" name="dientich" id="dientich">
+                                <div class="form-text">Diện tích dự án theo m²</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="vitri" class="form-label fs-6">Vị trí</label>
+                                <input type="text" class="form-control" name="vitri" id="vitri">
+                                <div class="form-text">Hãy ghi vị trí thật chi tiết nhé!</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="vitri" class="form-label fs-6">Loại Bất động sản</label>
+                                <select class="form-select" aria-label="Default select example" name="loaibds" id="loaibds">
+                                    <option value="">Chọn loại bất động sản</option>
+                                    <option value="Căn Hộ">Căn Hộ</option>
+                                    <option value="Nhà Riêng">Nhà Riêng</option>
+                                    <option value="Đất Nền">Đất Nền</option>
+                                    <option value="Biệt Thự">Biệt Thự</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="loaihinh" class="form-label fs-6">Loại hình</label>
+                                <input type="text" class="form-control" name="loaihinh" id="loaihinh">
+                                <div class="form-text">Loại bất hình bất động sản (Cao cấp, Bình dân,..)</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tinhtrangphaply" class="form-label fs-6">Tình trạng pháp lý</label>
+                                <input type="text" class="form-control" name="tinhtrangphaply" id="tinhtrangphaply">
+                                <div class="form-text">Tình trạng pháp lý (Sổ hồng, Hợp pháp,..)</div>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="mota" class="form-label fs-6">Mô tả</label>
+                                <textarea class="form-control" name="mota" id="mota" rows="3"></textarea>
+                            </div>
+                            <input type="hidden" name="idnguoidung" value="@tenDaDangNhap[0]" />
+                            <div class="mb-3">
+                                <label for="hinh" class="form-label fs-6">Hình bất động sản</label>
+                                <input class="form-control" type="file" name="hinh" id="hinh">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Thêm Bất Động Sản</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function validateForm() {
+                    // Kiểm tra tiêu đề
+                    var tieude = document.getElementById("tieude").value;
+                    if (tieude == "") {
+                        alert("Tiêu đề không được để trống.");
+                        return false;
+                    }
+
+                    // Kiểm tra giá
+                    var gia = document.getElementById("gia").value;
+                    if (gia == "" || isNaN(gia)) {
+                        alert("Giá phải là một số.");
+                        return false;
+                    }
+
+                    // Kiểm tra diện tích
+                    var dientich = document.getElementById("dientich").value;
+                    if (dientich == "" || isNaN(dientich)) {
+                        alert("Diện tích phải là một số.");
+                        return false;
+                    }
+
+                    // Kiểm tra vị trí
+                    var vitri = document.getElementById("vitri").value;
+                    if (vitri == "") {
+                        alert("Vị trí không được để trống.");
+                        return false;
+                    }
+
+                    // Kiểm tra loại bất động sản
+                    var loaibds = document.getElementById("loaibds").value;
+                    if (loaibds == "") {
+                        alert("Vui lòng chọn loại bất động sản.");
+                        return false;
+                    }
+
+                    // Kiểm tra loại hình
+                    var loaihinh = document.getElementById("loaihinh").value;
+                    if (loaihinh == "") {
+                        alert("Loại hình không được để trống.");
+                        return false;
+                    }
+
+                    // Kiểm tra tình trạng pháp lý
+                    var tinhtrangphaply = document.getElementById("tinhtrangphaply").value;
+                    if (tinhtrangphaply == "") {
+                        alert("Tình trạng pháp lý không được để trống.");
+                        return false;
+                    }
+
+                    // Kiểm tra mô tả
+                    var mota = document.getElementById("mota").value;
+                    if (mota == "") {
+                        alert("Mô tả không được để trống.");
+                        return false;
+                    }
+
+                    // Kiểm tra hình minh họa (nếu có)
+                    var hinh = document.getElementById("hinh").value;
+                    if (hinh == "") {
+                        alert("Hình minh họa không được để trống.");
+                        return false;
+                    }
+
+                    // Nếu tất cả các trường đều hợp lệ, cho phép form được gửi đi
+                    return true;
+                }
+            </script>
+
+        </div>
+    </div>
+</main>
+

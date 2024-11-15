@@ -1,57 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="site-mobile-menu site-navbar-target">
-    <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close">
-            <span class="icofont-close js-menu-toggle"></span>
-        </div>
-    </div>
-    <div class="site-mobile-menu-body"></div>
-</div>
-
-<nav class="site-nav">
-    <div class="container">
-
-        
-        <div class="menu-bg-wrap">
-            <div class="site-navigation">
-                <a href="~/Home/Index" class="logo m-0 float-start">HOMEW</a>
-
-                <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
-                    <li class="active"><a href="~/Home/Index">Home</a></li>
-                    <li class="has-children">
-                        <a href="~/Home/Properties">Bất Động Sản</a>
-                        <ul class="dropdown">
-                            <li><a href="#">Mua Bất Động Sản</a></li>
-                            <li><a href="#">Bán Bất Động Sản</a></li>
-                            <li class="has-children">
-                                <a href="#">Danh sách</a>
-                                <ul class="dropdown">
-                                    <li><a href="#">Menu Một</a></li>
-                                    <li><a href="#">Menu Hai</a></li>
-                                    <li><a href="#">Menu Ba</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="~/Home/Services">Dịch Vụ</a></li>
-                    <li><a href="~/Home/About">Giới Thiệu</a></li>
-                    <li><a href="~/Home/Contact">Liên Hệ</a></li>
-                </ul>
-
-                <a href="#"
-                   class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none"
-                   data-toggle="collapse"
-                   data-target="#main-navbar">
-                    <span></span>
-                </a>
-            </div>
-        </div>
-    </div>
-</nav>
-
 <div class="hero">
     <div class="hero-slide">
         <div class="img overlay"
@@ -76,7 +25,7 @@
                     <input type="text" name="TieuDe"
                            class="form-control px-4"
                            id="dulieutimkiem"
-                           placeholder="Your ZIP code or City. e.g. New York" />
+                           placeholder="Nhập tên căn hộ bạn tìm kiếm.." />
                     <button type="submit" class="btn btn-primary">Tìm</button>
                 </form>
                 <!-- Toast thông báo lỗi -->
@@ -135,16 +84,16 @@
             <div class="col-lg-6">
 
                 <h2 class="font-weight-bold text-primary heading">
-                    Bất Động Sản Phổ Biến
+                    Bất động sản
                 </h2>
             </div>
-            <div class="col-lg-6 text-lg-end">
+           @* <div class="col-lg-6 text-lg-end">
                 <p>
                     <a href="#"
                        target="_blank"
                        class="btn btn-primary text-white py-3 px-4">Xem Tất Cả Bất Động Sản</a>
                 </p>
-            </div>
+            </div>*@
         </div>
         <div class="row">
             <div class="col-12">
@@ -154,19 +103,74 @@
                         @foreach (var a in ViewBag.list)
                         {
                             <div class="property-item">
-                                <a href="~/Home/properties_detail" class="img">
-                                    <img src="~/images/img_1.jpg" alt="Image" class="img-fluid" />
+                                <a href="~/Home/properties_detail?id=@a[0]&idNguoiDung=@a[6]" class="img">
+                                    <img src="~/images/@a[11]" alt="Image" class="img-fluid" style=" height: 300px" />
                                 </a>
 
+                                @{
+                                    //Rút gọn số tiền
+                                    decimal amount = Convert.ToDecimal(@a[3]);
+
+                                    string formattedAmount;
+                                    if (amount >= 1_000_000_000) // Nếu giá trị >= 1 tỷ
+                                    {
+                                        decimal billions = Math.Round(amount / 1_000_000_000, 1);
+                                        formattedAmount = billions % 1 == 0 ? $"{billions:N0} tỷ" : $"{billions:N1} tỷ";
+                                    }
+                                    else if (amount >= 100_000_000) // Nếu giá trị >= 100 triệu
+                                    {
+                                        decimal hundredMillions = Math.Round(amount / 100_000_000, 1);
+                                        formattedAmount = hundredMillions % 1 == 0 ? $"{hundredMillions:N0} trăm triệu" : $"{hundredMillions:N1} trăm triệu";
+                                    }
+                                    else if (amount >= 1_000_000) // Nếu giá trị >= 1 triệu
+                                    {
+                                        decimal millions = Math.Round(amount / 1_000_000, 1);
+                                        formattedAmount = millions % 1 == 0 ? $"{millions:N0} triệu" : $"{millions:N1} triệu";
+                                    }
+                                    else
+                                    {
+                                        formattedAmount = $"{amount:N0} VNĐ";
+                                    }
+                                }
+                                @{
+                                    //Giới hạn mô tả
+                                    string text = @a[2].ToString();
+                                    int maxLength = 45; // Độ dài tối đa mong muốn
+
+                                    // Kiểm tra độ dài và cắt chuỗi nếu cần
+                                    string truncatedText = text.Length > maxLength
+                                        ? text.Substring(0, maxLength) + "..."
+                                        : text;
+                                }
+                                @{
+                                    //Giới hạn tieude
+                                    string name = @a[1].ToString();
+                                    int maxLengthName = 25; // Độ dài tối đa mong muốn
+
+                                    // Kiểm tra độ dài và cắt chuỗi nếu cần
+                                    string NameTex = name.Length > maxLengthName
+                                        ? name.Substring(0, maxLengthName) + "..."
+                                        : name;
+                                }
+                                @{
+                                    //Giới hạn vitri
+                                    string vitri = @a[5].ToString();
+                                    int maxLengthViTri = 43; // Độ dài tối đa mong muốn
+
+                                    // Kiểm tra độ dài và cắt chuỗi nếu cần
+                                    string VitriText = vitri.Length > maxLengthViTri
+                                        ? vitri.Substring(0, maxLengthViTri) + "..."
+                                        : vitri;
+                                }
                                 <div class="property-content">
-                                    <div class="price mb-2"><span>@a[3]đ</span></div>
+                                    <div class="price mb-2"><span>@formattedAmount</span></div>
                                     <div>
-                                        <span class="d-block mb-2 text-black-50">@a[1]</span>
-                                        <span class="city d-block mb-3">@a[5]</span>
+                                        <span class="d-block mb-2 text-black-50">@truncatedText</span>
+                                        <span class="city d-block mb-3">@NameTex</span>
 
                                         <div class="specs d-flex mb-4">
                                             <span class="d-block d-flex align-items-center me-3">
-                                                <span class="caption">@a[2]</span>
+                                                <span class="caption">@VitriText</span>
                                             </span>
                                         </div>
 
@@ -174,7 +178,8 @@
                                            class="btn btn-primary py-2 px-3">Xem Chi Tiết</a>
                                     </div>
                                 </div>
-                            </div>}
+                            </div>
+                         }
 
                     </div>
 
@@ -244,7 +249,7 @@
     </div>
 </section>
 
-<div class="section sec-testimonials">
+@*<div class="section sec-testimonials">
     <div class="container">
         <div class="row mb-5 align-items-center">
             <div class="col-md-6">
@@ -368,7 +373,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 <div class="section section-4 bg-light">
     <div class="container">

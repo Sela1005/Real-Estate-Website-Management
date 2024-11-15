@@ -119,6 +119,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuanLyController.cs" />
+    <Compile Include="Controllers\TinDangAPIController.cs" />
     <Compile Include="Filters\AdminAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\TinDangAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\flaticon\font\Flaticon.eot" />
@@ -304,7 +306,7 @@
     <Content Include="scss\components\_site-footer.scss" />
     <Content Include="scss\components\_site-navbar.scss" />
     <Content Include="scss\style.scss" />
-    <Content Include="Views\Home\Services.cshtml" />
+    <Content Include="Views\Home\DangTin.cshtml" />
     <Content Include="Views\Home\Properties.cshtml" />
     <Content Include="Views\Home\Properties_Detail.cshtml" />
     <Content Include="Views\QuanLy\Index.cshtml" />
@@ -313,6 +315,18 @@
     <Content Include="Views\QuanLy\ThemBDS.cshtml" />
     <Content Include="Views\Home\DangKy.cshtml" />
     <Content Include="Views\Home\TimKiemTieuDeBDS.cshtml" />
+    <Content Include="Views\QuanLy\XoaBDS.cshtml" />
+    <Content Include="Views\QuanLy\SuaBDS.cshtml" />
+    <Content Include="Views\Home\ThongTinNguoiDung.cshtml" />
+    <Content Include="Views\Home\QuanLyTinDang.cshtml" />
+    <Content Include="Views\Home\XoaBDS.cshtml" />
+    <Content Include="Views\Home\SuaBDS.cshtml" />
+    <Content Include="Views\Home\YeuTichTin.cshtml" />
+    <Content Include="Views\Home\HuyYeuThichTin.cshtml" />
+    <Content Include="Views\QuanLy\QuanLyNguoiDung.cshtml" />
+    <Content Include="Views\QuanLy\XoaNguoiDung.cshtml" />
+    <Content Include="Views\QuanLy\SuaNguoiDung.cshtml" />
+    <Content Include="Views\Home\DanhSachYeuThichNguoiDung.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

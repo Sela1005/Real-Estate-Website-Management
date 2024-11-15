@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "SuaBDS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    System.Collections.ArrayList tenDaDangNhap = ((System.Collections.ArrayList)Session["taikhoan"]);
+}
+<div class="hero page-inner overlay"
+     style="background-image: url('/images/hero_bg_1.jpg')">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center mt-5">
+                <h1 class="heading" data-aos="fade-up">Sửa Bất Động Sản</h1>
+
+                <nav aria-label="breadcrumb"
+                     data-aos="fade-up"
+                     data-aos-delay="200">
+                    <ol class="breadcrumb text-center justify-content-center">
+                        <li class="breadcrumb-item"><a href="">Home</a></li>
+                        <li class="breadcrumb-item"><a href="~/Home/QuanLyTinDang">Quản lý tin đăng</a></li>
+                        <li class="breadcrumb-item active text-white-50"
+                            aria-current="page">
+                            Sửa Bất Động Sản
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<main>
+    <div class="container-fluid px-4 mt-4">
+        <div class="card mb-4">
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-lg-10 col-md-7 mx-auto">
+                        <form action="~/Home/SuaBDS" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                            <div class="mb-3">
+                                <label for="tieude" class="form-label">Tiêu đề</label>
+                                <input type="text" class="form-control" name="tieude" id="tieude" value="@ViewBag.list[0][1]">
+                                <div class="form-text">Hãy ghi tiêu đề thật nổi bật nhé!</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="gia" class="form-label">Giá</label>
+                                <input type="text" class="form-control" name="gia" id="gia" value="@ViewBag.list[0][3]">
+                            </div>
+                            <div class="mb-3">
+                                <label for="dientich" class="form-label">Diện tích</label>
+                                <input type="text" class="form-control" name="dientich" id="dientich" value="@ViewBag.list[0][4]">
+                            </div>
+                            <div class="mb-3">
+                                <label for="vitri" class="form-label">Vị trí</label>
+                                <input type="text" class="form-control" name="vitri" id="vitri" value="@ViewBag.list[0][5]">
+                            </div>
+                            <div class="mb-3">
+                                <label for="vitri" class="form-label">Loại Bất động sản</label>
+                                <select class="form-select" aria-label="Default select example" name="loaibds" id="loaibds">
+                                    <option value="">Chọn loại bất động sản</option>
+                                    <option value="Căn Hộ" @if (ViewBag.list[0][8] == "Căn Hộ") { <text> selected</text> }>Căn Hộ</option>
+                                    <option value="Nhà Riêng" @if (ViewBag.list[0][8] == "Nhà Riêng") { <text> selected</text> }>Nhà Riêng</option>
+                                    <option value="Đất Nền" @if (ViewBag.list[0][8] == "Đất Nền") { <text> selected</text> }>Đất Nền</option>
+                                    <option value="Biệt Thự" @if (ViewBag.list[0][8] == "Biệt Thự") { <text> selected</text> }>Biệt Thự</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="loaihinh" class="form-label">Loại hình</label>
+                                <input type="text" class="form-control" name="loaihinh" id="loaihinh" value="@ViewBag.list[0][9]">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tinhtrangphaply" class="form-label">Tình trạng pháp lý</label>
+                                <input type="text" class="form-control" name="tinhtrangphaply" id="tinhtrangphaply" value="@ViewBag.list[0][10]">
+                            </div>tenDaDangNhap
+                            <div class="mb-3">
+                                <label for="mota" class="form-label">Mô tả</label>
+                                <textarea style="white-space: pre-line" class="form-control" name="mota" id="mota" rows="3">@Html.Raw(ViewBag.list[0][2].ToString().Replace("<br/>", "\n"))</textarea>
+                            </div>
+                            <input type="hidden" name="idnguoidung" value="@tenDaDangNhap[0]" />
+                            <input type="hidden" name="idbatdongsan" value="@ViewBag.list[0][0]" />
+                            <div class="mb- mt-2">
+                                <label for="hinh" class="form-label">Hình bất động sản</label>
+                                <input class="form-control" type="file" name="hinh" id="hinh">
+                                @if (!string.IsNullOrEmpty(ViewBag.list[0][11]?.ToString()))
+                                {
+                                    <span>Hình hiện tại:</span>
+                                    <img class="mt-2 mb-3" style="height:150px;width:200px" src="~/images/@ViewBag.list[0][11]" />
+                                    <input type="hidden" name="existingImage" value="@ViewBag.list[0][11]" />
+                                }
+                            </div>
+                            <button type="submit" class="btn btn-primary">Sửa Bất Động Sản</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function validateForm() {
+                    // Kiểm tra tiêu đề
+                    var tieude = document.getElementById("tieude").value;
+                    if (tieude == "") {
+                        alert("Tiêu đề không được để trống.");
+                        return false;
+                    }
+
+                    // Kiểm tra giá
+                    var gia = document.getElementById("gia").value;
+                    if (gia == "" || isNaN(gia)) {
+                        alert("Giá phải là một số.");
+                        return false;
+                    }
+
+                    // Kiểm tra diện tích
+                    var dientich = document.getElementById("dientich").value;
+                    if (dientich == "" || isNaN(dientich)) {
+                        alert("Diện tích phải là một số.");
+                        return false;
+                    }
+
+                    // Kiểm tra vị trí
+                    var vitri = document.getElementById("vitri").value;
+                    if (vitri == "") {
+                        alert("Vị trí không được để trống.");
+                        return false;
+                    }
+
+                    // Kiểm tra loại bất động sản
+                    var loaibds = document.getElementById("loaibds").value;
+                    if (loaibds == "") {
+                        alert("Vui lòng chọn loại bất động sản.");
+                        return false;
+                    }
+
+                    // Kiểm tra loại hình
+                    var loaihinh = document.getElementById("loaihinh").value;
+                    if (loaihinh == "") {
+                        alert("Loại hình không được để trống.");
+                        return false;
+                    }
+
+                    // Kiểm tra tình trạng pháp lý
+                    var tinhtrangphaply = document.getElementById("tinhtrangphaply").value;
+                    if (tinhtrangphaply == "") {
+                        alert("Tình trạng pháp lý không được để trống.");
+                        return false;
+                    }
+
+                    // Kiểm tra mô tả
+                    var mota = document.getElementById("mota").value;
+                    if (mota == "") {
+                        alert("Mô tả không được để trống.");
+                        return false;
+                    }
+                    // Nếu tất cả các trường đều hợp lệ, cho phép form được gửi đi
+                    return true;
+                }
+            </script>
+
+        </div>
+    </div>
+</main>
+
+
+

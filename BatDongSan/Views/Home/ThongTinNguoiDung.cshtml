@@ -1,0 +1,108 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="hero page-inner overlay" 
+     style="background-image: url('/images/hero_bg_1.jpg'); height: 50vh ; min-height: none !important;">
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="min-height: none !important; height: 50vh; ">
+            <div class="col-lg-9 text-center mt-5">
+                <h1 class="heading" data-aos="fade-up">Thông tin cá nhân</h1>
+
+                <nav aria-label="breadcrumb"
+                     data-aos="fade-up"
+                     data-aos-delay="200">
+                    <ol class="breadcrumb text-center justify-content-center">
+                        <li class="breadcrumb-item"><a href="~/Home/index">Home</a></li>
+                        <li class="breadcrumb-item active text-white-50"
+                            aria-current="page">
+                            Thông tin cá nhân
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("SUANGUOIDUNG", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container rounded bg-white mb-5">
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <!-- Hiển thị hình ảnh hiện tại của người dùng -->
+                    <img class="rounded-circle mt-5" style=" width:150px" src="~/images/@ViewBag.listUser[0][6]" />
+                    <input type="hidden" name="existingImage" value="@ViewBag.listUser[0][6]" />
+                </div>
+            </div>
+            <div class="col-md-5 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Thông tin cá nhân</h4>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label class="labels">Tên</label>
+                            <input type="text" name="tennguoidung" id="tennguoidung" class="form-control" placeholder="nhập tên" value="@ViewBag.listUser[0][1]" />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="labels">Số điện thoại</label>
+                            <input type="text" name="sodienthoai" id="sodienthoai" class="form-control" placeholder="nhập số điện thoại" value="@ViewBag.listUser[0][4]" />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Email</label>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="nhập email" value="@ViewBag.listUser[0][3]" />
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="labels">Hình ảnh</label>
+                            <input type="file" name="hinh" class="form-control" />
+                        </div>
+                        <input type="hidden" name="idnguoidung" value="@ViewBag.listUser[0][0]" />
+                    </div>
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary profile-button" type="submit">Cập nhật thông tin</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <div class="mt-5 text-center">
+                        <a class="btn btn-primary profile-button" href="~/Home/DanhSachYeuThichNguoiDung?id=@ViewBag.listUser[0][0]">Danh sách tin yêu thích</a>
+                    </div>
+                </div>
+             </div>
+         </div>
+    </div>
+}
+<script>
+    function validateForm() {
+        // Kiểm tra tên người dùng
+        var tennguoidung = document.getElementById("tennguoidung").value;
+        if (tennguoidung == "") {
+            alert("Tên không được để trống.");
+            return false;
+        }
+
+        // Kiểm tra số điện thoại
+        var sodienthoai = document.getElementById("sodienthoai").value;
+        if (sodienthoai == "") {
+            alert("Số điện thoại không được để trống.");
+            return false;
+        }
+
+        // Kiểm tra email
+        var email = document.getElementById("email").value;
+        if (email == "") {
+            alert("Email không được để trống.");
+            return false;
+        }
+
+        // Nếu tất cả các trường đều hợp lệ, cho phép form được gửi đi
+        return true;
+    }
+</script>
+
+
+

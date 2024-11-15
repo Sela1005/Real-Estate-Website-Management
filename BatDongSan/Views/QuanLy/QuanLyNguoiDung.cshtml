@@ -1,0 +1,133 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Quản lý Người Dùng </h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="~/QuanLy/Index">Bảng điều khiển</a></li>
+            <li class="breadcrumb-item active">Quản lý Người Dùng</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Bảng Người Dùng
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Tên người dùng</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Vai trò</th>
+                            <th>Ngày tạo</th>
+                            <th>Sửa</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Tên người dùng</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Vai trò</th>
+                            <th>Ngày tạo</th>
+                            <th>Sửa</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var a in ViewBag.listUser)
+                        {
+                            <tr>
+                                <td>
+                                    @if (a[1].Length > 50)
+                                    {
+                                        @Html.Raw(string.Concat(a[1].Substring(0, 50), "..."))
+                                    }
+                                    else
+                                    {
+                                        @a[1]
+                                    }
+                                </td>
+                                <td>@a[3]</td>
+                                <td>@a[4]</td>
+                                <td>@a[5]</td>
+                                <td>@a[7]</td>
+                                <th><a class="bi bi-pencil" href="~/Quanly/SuaNguoiDung?idNguoiDung=@a[0]"></a> </th>
+                                <th>
+                                    <a style="cursor:pointer" onclick="confirmDelete('@a[0]')" class="bi bi-trash"></a>
+                                </th>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                <!-- Modal Popup (Ẩn ban đầu) -->
+                <!--<div id="confirmModal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <h4>Xác nhận xóa</h4>
+                        <p>Bạn có chắc chắn muốn xóa mục này không?</p>
+                        <button id="confirmDeleteBtn" class="btn btn-danger">Xóa</button>
+                        <button onclick="closeModal()" class="btn btn-secondary">Hủy</button>
+                    </div>
+                </div>-->
+                <div class="modal" tabindex="-1" id="confirmModal" style="display:none">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Xóa Người dùng</h5>
+                                <button onclick="closeModal()" type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Bạn có chắc muốn xóa Người dùng này không?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button onclick="closeModal()" type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">Hủy</button>
+                                <button id="confirmDeleteBtn" type="button" class="btn btn-primary" data-mdb-ripple-init>Xóa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    // Hàm để mở popup xác nhận
+                    function confirmDelete(id) {
+                        // Lưu id mục cần xóa vào biến toàn cục
+                        window.deleteItemId = id;
+                        // Hiển thị modal popup
+                        document.getElementById('confirmModal').style.display = 'block';
+                    }
+
+                    // Hàm để đóng popup
+                    function closeModal() {
+                        document.getElementById('confirmModal').style.display = 'none';
+                    }
+
+                    // Hàm xóa mục
+                    document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+                        // Gửi yêu cầu xóa bằng phương thức POST
+                        var form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '@Url.Action("XoaNguoiDung", "Quanly")'; // Địa chỉ action của controller
+
+                        // Tạo input ẩn để gửi id của mục cần xóa
+                        var input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'id'; // Tên của tham số trong controller
+                        input.value = window.deleteItemId;
+
+                        form.appendChild(input);
+                        document.body.appendChild(form);
+                        form.submit(); // Gửi form với phương thức POST
+                    });
+                </script>
+
+            </div>
+        </div>
+    </div>
+</main>
+

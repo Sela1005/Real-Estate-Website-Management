@@ -15,21 +15,37 @@
     <title>HOMEW - ADMIN</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">HOMEW - ADMIN</a>
+        <a class="navbar-brand ps-3" href="~/Quanly/index">HOMEW - ADMIN</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i>
+                    @if (Session["taikhoan"] != null)
+                    {
+                        // Lấy tên người dùng từ session
+                        System.Collections.ArrayList tenDaDangNhap = (System.Collections.ArrayList)Session["taikhoan"];
+                        string username = tenDaDangNhap[1].ToString();  // Giả sử tên người dùng nằm ở vị trí 0
+                        <span class="ms-2">Hi! @username</span> <!-- Hiển thị tên người dùng -->
+                    }
+                </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Đăng xuất</a></li>
+                    <li>
+                        <!-- Tạo form POST để gọi hành động XulyDangXuat -->
+                        @using (Html.BeginForm("XulyDangXuat", "Home", FormMethod.Post))
+                        {
+                            <a class="dropdown-item" href="javascript:void(0)" onclick="this.closest('form').submit();">Đăng xuất</a>
+                        }
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -40,9 +56,9 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="~/QuanLy/Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
+                            Bảng điều khiển
                         </a>
                         <div class="sb-sidenav-menu-heading">Interface</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -52,7 +68,7 @@
                         </a>
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="">Quản lý người dùng</a>
+                                <a class="nav-link" href="~/Quanly/quanlynguoidung">Quản lý người dùng</a>
                                 <a class="nav-link" href="~/Quanly/Quanlybatdongsan">Quản lý Bất động sản</a>
                             </nav>
                         </div>
@@ -102,6 +118,53 @@
         </div>
         <div id="layoutSidenav_content">
             @RenderBody()
+            <div class="position-fixed top-0 start-0 p-3" style="z-index: 11">
+                <div id="liveToastSussess" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            @if (TempData["SuccessMessage"] != null)
+                            {
+                                @TempData["SuccessMessage"]
+                            }
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="position-fixed top-0 start-0 p-3" style="z-index: 11">
+                <div id="liveToastError" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                @TempData["ErrorMessage"]
+                            }
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+
+            <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Kiểm tra và hiển thị thông báo thành công (SuccessMessage)
+    var successMessage = "@TempData["SuccessMessage"]";
+    if (successMessage !== "") {
+        var successToastElement = document.getElementById('liveToastSussess');
+        var successToast = new bootstrap.Toast(successToastElement);
+        successToast.show();  // Hiển thị Toast thành công
+    }
+
+    // Kiểm tra và hiển thị thông báo lỗi (ErrorMessage)
+    var errorMessage = "@TempData["ErrorMessage"]";
+    if (errorMessage !== "") {
+        var errorToastElement = document.getElementById('liveToastError');
+        var errorToast = new bootstrap.Toast(errorToastElement);
+        errorToast.show();  // Hiển thị Toast lỗi
+    }
+});
+            </script>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
