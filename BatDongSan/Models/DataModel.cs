@@ -55,8 +55,8 @@ namespace BatDongSan.Models
             String s = text.Replace(",", "&44;");
             s = s.Replace("\"", "&34;");
             s = s.Replace("'", "&39;");
-            s = s.Replace("\r", "");
-            s = s.Replace("\n", "");
+            s = s.Replace("\r", "&13;");
+            s = s.Replace("\n", "&10;");
             return s;
         }
         public ArrayList getApi(string sql)

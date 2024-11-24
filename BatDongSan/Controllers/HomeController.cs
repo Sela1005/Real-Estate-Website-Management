@@ -387,8 +387,10 @@ namespace BatDongSan.Controllers
                 return RedirectToAction("SuaBDS", "Home", new { id = idnguoidung });
             }
         }
-        public ActionResult Properties(string pagenumber, string pagesize)
+        public ActionResult Properties()
         {
+            DataModel db = new DataModel();
+            ViewBag.list = db.get("Select * from BatDongSan");
             return View();
         }
         
