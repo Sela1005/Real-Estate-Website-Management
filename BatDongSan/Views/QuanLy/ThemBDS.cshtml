@@ -79,8 +79,8 @@
 
                             // Kiểm tra giá
                             var gia = document.getElementById("gia").value;
-                            if (gia == "" || isNaN(gia)) {
-                                alert("Giá phải là một số.");
+                            if (gia == "" || isNaN(gia) || !isDe) {
+                                alert("Giá phải là một số và phải là 1 số dương");
                                 return false;
                             }
 

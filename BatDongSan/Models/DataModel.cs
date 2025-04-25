@@ -9,7 +9,7 @@ namespace BatDongSan.Models
 {
     public class DataModel
     {
-        private string connetionString = "workstation id=doanphanmembatdongsan.mssql.somee.com;packet size=4096;user id=vinhbopco_SQLLogin_1;pwd=kn2xcfrz8c;data source=doanphanmembatdongsan.mssql.somee.com;persist security info=False;initial catalog=doanphanmembatdongsan;TrustServerCertificate=True";
+        private string connetionString = "workstation id=batdongsandoanphanmem.mssql.somee.com;packet size=4096;user id=vinhbopco_SQLLogin_1;pwd=kn2xcfrz8c;data source=batdongsandoanphanmem.mssql.somee.com;persist security info=False;initial catalog=batdongsandoanphanmem;TrustServerCertificate=True";
         public ArrayList get(string sql)
         {
             ArrayList dataList = new ArrayList();
