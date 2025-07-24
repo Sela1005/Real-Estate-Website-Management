@@ -1,0 +1,224 @@
+﻿
+@{
+    ViewBag.Title = "SapXepTheoKhuVuc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="hero page-inner overlay"
+     style="background-image: url('/images/hero_bg_1.jpg')">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center mt-5">
+                <h1 class="heading" data-aos="fade-up">Danh Sách Tin Đăng</h1>
+
+                <nav aria-label="breadcrumb"
+                     data-aos="fade-up"
+                     data-aos-delay="200">
+                    <ol class="breadcrumb text-center justify-content-center">
+                        <li class="breadcrumb-item"><a href="~/Home/index">Home</a></li>
+                        <li class="breadcrumb-item active text-white-50"
+                            aria-current="page">
+                            Danh Sách Tin Đăng
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="section section-properties">
+
+    <div class="container">
+        <div style=" height: 100px; display: flex; justify-content: flex-end; align-items: center;gap: 10px">
+            <form action="~/Home/SapXepTheoKhuVuc" enctype="multipart/form-data" onsubmit="return validateForm()" style="display: flex; align-items: center; gap: 10px;">
+                <select class="form-select" aria-label="Default select example" name="khuvuc" id="khuvuc">
+                    <option value="">Chọn khu vực</option>
+                    <option value="An Giang">An Giang</option>
+                    <option value="Bà rịa Vũng Tàu">Bà rịa Vũng Tàu</option>
+                    <option value="Bạc Liêu">Bạc Liêu</option>
+                    <option value="Bắc Giang">Bắc Giang</option>
+                    <option value="Bắc Kạn">Bắc Kạn</option>
+                    <option value="Bắc Ninh">Bắc Ninh</option>
+                    <option value="Bến Tre">Bến Tre</option>
+                    <option value="Bình Dương">Bình Dương</option>
+                    <option value="Bình Định">Bình Định</option>
+                    <option value="Bình Phước">Bình Phước</option>
+                    <option value="Bình Thuận">Bình Thuận</option>
+                    <option value="Cà Mau">Cà Mau</option>
+                    <option value="Cao Bằng">Cao Bằng</option>
+                    <option value="Cần Thơ">Cần Thơ</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Đắk Lắk">Đắk Lắk</option>
+                    <option value="Đắk Nông">Đắk Nông</option>
+                    <option value="Điện Biên">Điện Biên</option>
+                    <option value="Đồng Nai">Đồng Nai</option>
+                    <option value="Đồng Tháp">Đồng Tháp</option>
+                    <option value="Gia Lai">Gia Lai</option>
+                    <option value="Hà Giang">Hà Giang</option>
+                    <option value="Hà Nam">Hà Nam</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Hà Tĩnh">Hà Tĩnh</option>
+                    <option value="Hải Dương">Hải Dương</option>
+                    <option value="Hải Phòng">Hải Phòng</option>
+                    <option value="Hậu Giang">Hậu Giang</option>
+                    <option value="Hòa Bình">Hòa Bình</option>
+                    <option value="Hưng Yên">Hưng Yên</option>
+                    <option value="Khánh Hòa">Khánh Hòa</option>
+                    <option value="Kiên Giang">Kiên Giang</option>
+                    <option value="Kon Tum">Kon Tum</option>
+                    <option value="Lai Châu">Lai Châu</option>
+                    <option value="Lạng Sơn">Lạng Sơn</option>
+                    <option value="Lào Cai">Lào Cai</option>
+                    <option value="Lâm Đồng">Lâm Đồng</option>
+                    <option value="Long An">Long An</option>
+                    <option value="Nam Định">Nam Định</option>
+                    <option value="Nghệ An">Nghệ An</option>
+                    <option value="Ninh Bình">Ninh Bình</option>
+                    <option value="Ninh Thuận">Ninh Thuận</option>
+                    <option value="Phú Thọ">Phú Thọ</option>
+                    <option value="Phú Yên">Phú Yên</option>
+                    <option value="Quảng Bình">Quảng Bình</option>
+                    <option value="Quảng Nam">Quảng Nam</option>
+                    <option value="Quảng Ngãi">Quảng Ngãi</option>
+                    <option value="Quảng Ninh">Quảng Ninh</option>
+                    <option value="Quảng Trị">Quảng Trị</option>
+                    <option value="Sóc Trăng">Sóc Trăng</option>
+                    <option value="Sơn La">Sơn La</option>
+                    <option value="Tây Ninh">Tây Ninh</option>
+                    <option value="Thái Bình">Thái Bình</option>
+                    <option value="Thái Nguyên">Thái Nguyên</option>
+                    <option value="Thanh Hóa">Thanh Hóa</option>
+                    <option value="Thành phố Huế">Thành phố Huế</option>
+                    <option value="Tiền Giang">Tiền Giang</option>
+                    <option value="TP Hồ Chí Minh">TP Hồ Chí Minh</option>
+                    <option value="Trà Vinh">Trà Vinh</option>
+                    <option value="Tuyên Quang">Tuyên Quang</option>
+                    <option value="Vĩnh Long">Vĩnh Long</option>
+                    <option value="Vĩnh Phúc">Vĩnh Phúc</option>
+                    <option value="Yên Bái">Yên Bái</option>
+
+                </select>
+                <button type="submit" class="btn btn-primary">Lọc</button>
+            </form>
+        </div>
+        <div class="row">
+            @if (ViewBag.list == null || ViewBag.list.Count == 0)
+            {
+                <div class="fs-3 text-center">Không tìm thấy</div>
+            }
+            else
+            {
+                foreach (var a in ViewBag.list)
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+
+
+
+                        <div class="property-item mb-30">
+                            <a href="~/Home/properties_detail?id=@a[0]&idNguoiDung=@a[6]" class="img">
+                                <img src="~/images/@a[11]" alt="Image" class="img-fluid" style=" height: 300px" />
+                            </a>
+                            @{
+                                //Rút gọn số tiền
+                                decimal amount = Convert.ToDecimal(@a[3]);
+
+                                string formattedAmount;
+                                if (amount >= 1_000_000_000) // Nếu giá trị >= 1 tỷ
+                                {
+                                    decimal billions = Math.Round(amount / 1_000_000_000, 1);
+                                    formattedAmount = billions % 1 == 0 ? $"{billions:N0} tỷ" : $"{billions:N1} tỷ";
+                                }
+                                else if (amount >= 100_000_000) // Nếu giá trị >= 100 triệu
+                                {
+                                    decimal hundredMillions = Math.Round(amount / 100_000_000, 1);
+                                    formattedAmount = hundredMillions % 1 == 0 ? $"{hundredMillions:N0} trăm triệu" : $"{hundredMillions:N1} trăm triệu";
+                                }
+                                else if (amount >= 1_000_000) // Nếu giá trị >= 1 triệu
+                                {
+                                    decimal millions = Math.Round(amount / 1_000_000, 1);
+                                    formattedAmount = millions % 1 == 0 ? $"{millions:N0} triệu" : $"{millions:N1} triệu";
+                                }
+                                else
+                                {
+                                    formattedAmount = $"{amount:N0} VNĐ";
+                                }
+                            }
+                            @{
+                                //Giới hạn mô tả
+                                string text = @a[2].ToString();
+                                int maxLength = 45; // Độ dài tối đa mong muốn
+
+                                // Kiểm tra độ dài và cắt chuỗi nếu cần
+                                string truncatedText = text.Length > maxLength
+                                    ? text.Substring(0, maxLength) + "..."
+                                    : text;
+                            }
+                            @{
+                                //Giới hạn tieude
+                                string name = @a[1].ToString();
+                                int maxLengthName = 25; // Độ dài tối đa mong muốn
+
+                                // Kiểm tra độ dài và cắt chuỗi nếu cần
+                                string NameTex = name.Length > maxLengthName
+                                    ? name.Substring(0, maxLengthName) + "..."
+                                    : name;
+                            }
+                            @{
+                                //Giới hạn vitri
+                                string vitri = @a[5].ToString();
+                                int maxLengthViTri = 43; // Độ dài tối đa mong muốn
+
+                                // Kiểm tra độ dài và cắt chuỗi nếu cần
+                                string VitriText = vitri.Length > maxLengthViTri
+                                    ? vitri.Substring(0, maxLengthViTri) + "..."
+                                    : vitri;
+                            }
+                            <div class="property-content">
+                                <div class="price mb-2"><span>@formattedAmount</span></div>
+                                <div>
+                                    <span class="d-block mb-2 text-black-50">@truncatedText</span>
+                                    <span class="city d-block mb-3">@NameTex</span>
+
+                                    <div class="specs d-flex mb-4">
+                                        <span class="d-block d-flex align-items-center me-3">
+                                            <span class="caption">@VitriText</span>
+                                        </span>
+                                    </div>
+
+                                    <a href="~/Home/properties_detail?id=@a[0]&idNguoiDung=@a[6]"
+                                       class="btn btn-primary py-2 px-3">Xem Chi Tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+        <div class="row align-items-center py-5">
+            <div class="col-lg-3">Pagination (1 of 10)</div>
+            <div class="col-lg-6 text-center">
+                <div class="custom-pagination">
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Preloader -->
+<div id="overlayer"></div>
+<div class="loader">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+

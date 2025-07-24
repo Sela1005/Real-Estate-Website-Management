@@ -64,6 +64,7 @@
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary profile-button" type="submit">Cập nhật thông tin</button>
                     </div>
+
                 </div>
             </div>
             <div class="col-md-3 border-right">
@@ -71,16 +72,18 @@
                     <div class="mt-5 text-center">
                         <a class="btn btn-primary profile-button" href="~/Home/DanhSachYeuThichNguoiDung?id=@ViewBag.listUser[0][0]">Danh sách tin yêu thích</a>
                     </div>
+                    <div class="mt-5 text-center">
+                        <a class="btn btn-primary profile-button" href="~/Home/Doimatkhau?id=@ViewBag.listUser[0][0]">Cập nhật mật khẩu</a>
+                    </div>
                 </div>
-             </div>
-         </div>
+            </div>
+        </div>
     </div>
 }
 <script>
     function validateForm() {
         // Kiểm tra tên người dùng
-        var tennguoidung = document.getElementById("tennguoidung").value;
-        if (tennguoidung == "") {
+        var tennguoidung = document.getElementById("tennguoidung").value;        if (tennguoidung == "") {
             alert("Tên không được để trống.");
             return false;
         }

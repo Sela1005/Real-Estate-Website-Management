@@ -8,12 +8,12 @@
     <div class="container-fluid px-4">
         <h1 class="mt-4">Quản lý Tin Đăng </h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="~/QuanLy/Index">Bảng điều khiển</a></li>
+            <li class="breadcrumb-item"><a href="~/QuanLy/Index"style=" color: #005555"  >Bảng điều khiển</a></li>
             <li class="breadcrumb-item active">Quản lý Tin Đăng</li>
         </ol>
         <div class="card mb-4">
             <div class="card-body">
-                <a class="btn btn-primary" href="~/QuanLy/ThemBDS" role="button">Thêm Tin Đăng</a>
+                <a class="btn" href="~/QuanLy/ThemBDS" role="button"  style="background-color: #005555; color: white"   >Thêm Tin Đăng</a>
             </div>
         </div>
         <div class="card mb-4">
@@ -106,7 +106,7 @@
                                 <td>@a[13]</td>
                                 <th><a class="bi bi-pencil" href="~/Quanly/SuaBDS?id=@a[0]&idNguoiDung=@a[6]"></a> </th>
                                 <th>
-                                    <a style="cursor:pointer" onclick="confirmDelete('@a[0]')" class="bi bi-trash"></a>
+                                    <a style="cursor:pointer;color: red;" onclick="confirmDelete('@a[0]')" class="bi bi-trash"></a>
                                 </th>
 
                             </tr>
@@ -136,8 +136,8 @@
                                 <p>Bạn có chắc muốn xóa Bất Động Sản này không?</p>
                             </div>
                             <div class="modal-footer">
-                                <button onclick="closeModal()" type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">Hủy</button>
-                                <button id="confirmDeleteBtn" type="button" class="btn btn-primary" data-mdb-ripple-init>Xóa</button>
+                                <button onclick="closeModal()" type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal" style="background-color: #005555">Hủy</button>
+                                <button id="confirmDeleteBtn" type="button" class="btn btn-primary" data-mdb-ripple-init style="background-color: red">Xóa</button>
                             </div>
                         </div>
                     </div>

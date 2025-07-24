@@ -1,21 +1,59 @@
 ﻿using BatDongSan.Filters;
 using BatDongSan.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 namespace BatDongSan.Controllers
 {
     [AdminAuthorize]
     public class QuanLyController : Controller
     {
         // GET: QuanLy
-        public ActionResult Index()
+        public ActionResult Index(int? nam) // Thêm tham số 'nam' để nhận năm từ URL
         {
+            // 1. Xác định năm cần hiển thị. Nếu không có năm nào được chọn, lấy năm hiện tại.
+            int selectedYear = nam ?? DateTime.Now.Year;
+
+            DataModel db = new DataModel();
+            ViewBag.listTotalUser = db.get("EXEC DemUser");
+            ViewBag.listTotalBDS = db.get("EXEC TongTinDang");
+
+            // --- PHẦN XỬ LÝ BIỂU ĐỒ ---
+
+            // 2. Gọi stored procedure với năm đã chọn
+            ArrayList thongKeResult = db.get("EXEC ThongKeTinDangTheoNam " + selectedYear);
+
+            // 3. Xử lý dữ liệu trả về (code này đã đúng)
+            var thangLabels = new List<string>();
+            var soLieuTinDang = new List<int>();
+            foreach (ArrayList row in thongKeResult)
+            {
+                if (row != null && row.Count >= 2)
+                {
+                    thangLabels.Add(row[0].ToString());
+                    soLieuTinDang.Add(Convert.ToInt32(row[1]));
+                }
+            }
+
+            // 4. Đưa dữ liệu ra ViewBag
+            ViewBag.ChartLabels = thangLabels;   // Nhãn các tháng (ví dụ: '2025-01', '2025-02')
+            ViewBag.ListingData = soLieuTinDang; // Dữ liệu số tin đăng
+            ViewBag.SelectedYear = selectedYear; // Năm đang được chọn
+
+            // 5. Tạo danh sách các năm để hiển thị trong dropdown
+            var availableYears = new List<int>();
+            for (int year = DateTime.Now.Year; year >= 2024; year--)
+            {
+                availableYears.Add(year);
+            }
+            ViewBag.AvailableYears = availableYears;
+
             return View();
         }
         public ActionResult QuanLyBatDongSan()

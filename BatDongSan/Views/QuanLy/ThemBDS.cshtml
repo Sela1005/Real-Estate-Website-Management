@@ -7,6 +7,14 @@
     System.Collections.ArrayList tenDaDangNhap = ((System.Collections.ArrayList)Session["taikhoan"]);
 }
 
+
+
+<style>
+    .error {
+        color: red;
+        font-size: 13px;
+    }
+</style>
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">Bảng Bất động sản </h1>
@@ -23,21 +31,95 @@
                                 <label for="tieude" class="form-label">Tiêu đề</label>
                                 <input type="text" class="form-control" name="tieude" id="tieude">
                                 <div class="form-text">Hãy ghi tiêu đề thật nổi bật nhé!</div>
+                                <span class="error" id="tieude-error"></span><br>
                             </div>
                             <div class="mb-3">
                                 <label for="gia" class="form-label">Giá</label>
                                 <input type="text" class="form-control" name="gia" id="gia">
+                                <span class="error" id="gia-error"></span><br>
                             </div>
                             <div class="mb-3">
-                                <label for="dientich" class="form-label">Diện tích</label>
+                                <label for="dientich" class="form-label">Diện tích (m²)</label>
                                 <input type="text" class="form-control" name="dientich" id="dientich">
+                                <span class="error" id="dientich-error"></span><br>
                             </div>
                             <div class="mb-3">
                                 <label for="vitri" class="form-label">Vị trí</label>
                                 <input type="text" class="form-control" name="vitri" id="vitri">
+                                <span class="error" id="vitri-error"></span><br>
                             </div>
                             <div class="mb-3">
-                                <label for="vitri" class="form-label">Loại Bất động sản</label>
+                                <label for="khuvuc" class="form-label fs-6">Tỉnh thành</label>
+                                <select class="form-select" aria-label="Default select example" name="khuvuc" id="khuvuc">
+                                    <option value="">Chọn tỉnh thành</option>
+                                    <option value="An Giang">An Giang</option>
+                                    <option value="Bà rịa Vũng Tàu">Bà rịa Vũng Tàu</option>
+                                    <option value="Bạc Liêu">Bạc Liêu</option>
+                                    <option value="Bắc Giang">Bắc Giang</option>
+                                    <option value="Bắc Kạn">Bắc Kạn</option>
+                                    <option value="Bắc Ninh">Bắc Ninh</option>
+                                    <option value="Bến Tre">Bến Tre</option>
+                                    <option value="Bình Dương">Bình Dương</option>
+                                    <option value="Bình Định">Bình Định</option>
+                                    <option value="Bình Phước">Bình Phước</option>
+                                    <option value="Bình Thuận">Bình Thuận</option>
+                                    <option value="Cà Mau">Cà Mau</option>
+                                    <option value="Cao Bằng">Cao Bằng</option>
+                                    <option value="Cần Thơ">Cần Thơ</option>
+                                    <option value="Đà Nẵng">Đà Nẵng</option>
+                                    <option value="Đắk Lắk">Đắk Lắk</option>
+                                    <option value="Đắk Nông">Đắk Nông</option>
+                                    <option value="Điện Biên">Điện Biên</option>
+                                    <option value="Đồng Nai">Đồng Nai</option>
+                                    <option value="Đồng Tháp">Đồng Tháp</option>
+                                    <option value="Gia Lai">Gia Lai</option>
+                                    <option value="Hà Giang">Hà Giang</option>
+                                    <option value="Hà Nam">Hà Nam</option>
+                                    <option value="Hà Nội">Hà Nội</option>
+                                    <option value="Hà Tĩnh">Hà Tĩnh</option>
+                                    <option value="Hải Dương">Hải Dương</option>
+                                    <option value="Hải Phòng">Hải Phòng</option>
+                                    <option value="Hậu Giang">Hậu Giang</option>
+                                    <option value="Hòa Bình">Hòa Bình</option>
+                                    <option value="Hưng Yên">Hưng Yên</option>
+                                    <option value="Khánh Hòa">Khánh Hòa</option>
+                                    <option value="Kiên Giang">Kiên Giang</option>
+                                    <option value="Kon Tum">Kon Tum</option>
+                                    <option value="Lai Châu">Lai Châu</option>
+                                    <option value="Lạng Sơn">Lạng Sơn</option>
+                                    <option value="Lào Cai">Lào Cai</option>
+                                    <option value="Lâm Đồng">Lâm Đồng</option>
+                                    <option value="Long An">Long An</option>
+                                    <option value="Nam Định">Nam Định</option>
+                                    <option value="Nghệ An">Nghệ An</option>
+                                    <option value="Ninh Bình">Ninh Bình</option>
+                                    <option value="Ninh Thuận">Ninh Thuận</option>
+                                    <option value="Phú Thọ">Phú Thọ</option>
+                                    <option value="Phú Yên">Phú Yên</option>
+                                    <option value="Quảng Bình">Quảng Bình</option>
+                                    <option value="Quảng Nam">Quảng Nam</option>
+                                    <option value="Quảng Ngãi">Quảng Ngãi</option>
+                                    <option value="Quảng Ninh">Quảng Ninh</option>
+                                    <option value="Quảng Trị">Quảng Trị</option>
+                                    <option value="Sóc Trăng">Sóc Trăng</option>
+                                    <option value="Sơn La">Sơn La</option>
+                                    <option value="Tây Ninh">Tây Ninh</option>
+                                    <option value="Thái Bình">Thái Bình</option>
+                                    <option value="Thái Nguyên">Thái Nguyên</option>
+                                    <option value="Thanh Hóa">Thanh Hóa</option>
+                                    <option value="Thành phố Huế">Thành phố Huế</option>
+                                    <option value="Tiền Giang">Tiền Giang</option>
+                                    <option value="TP Hồ Chí Minh">TP Hồ Chí Minh</option>
+                                    <option value="Trà Vinh">Trà Vinh</option>
+                                    <option value="Tuyên Quang">Tuyên Quang</option>
+                                    <option value="Vĩnh Long">Vĩnh Long</option>
+                                    <option value="Vĩnh Phúc">Vĩnh Phúc</option>
+                                    <option value="Yên Bái">Yên Bái</option>
+                                </select>
+                                <span class="error" id="khuvuc-error"></span><br>
+                            </div>
+                            <div class="mb-3">
+                                <label for="loaibds" class="form-label">Loại Bất động sản</label>
                                 <select class="form-select" aria-label="Default select example" name="loaibds" id="loaibds">
                                     <option value="">Chọn loại bất động sản</option>
                                     <option value="Căn Hộ">Căn Hộ</option>
@@ -45,98 +127,116 @@
                                     <option value="Đất Nền">Đất Nền</option>
                                     <option value="Biệt Thự">Biệt Thự</option>
                                 </select>
+                                <span class="error" id="loaibds-error"></span><br>
                             </div>
                             <div class="mb-3">
                                 <label for="loaihinh" class="form-label">Loại hình</label>
                                 <input type="text" class="form-control" name="loaihinh" id="loaihinh">
+                                <span class="error" id="loaihinh-error"></span><br>
                             </div>
                             <div class="mb-3">
                                 <label for="tinhtrangphaply" class="form-label">Tình trạng pháp lý</label>
                                 <input type="text" class="form-control" name="tinhtrangphaply" id="tinhtrangphaply">
+                                <span class="error" id="tinhtrangphaply-error"></span><br>
                             </div>
                             <div class="mb-3">
                                 <label for="mota" class="form-label">Mô tả</label>
                                 <textarea class="form-control" name="mota" id="mota" rows="3"></textarea>
+                                <span class="error" id="mota-error"></span><br>
                             </div>
                             <input type="hidden" name="idnguoidung" value="@tenDaDangNhap[0]" />
                             <div class="mb-3">
                                 <label for="hinh" class="form-label">Hình bất động sản</label>
                                 <input class="form-control" type="file" name="hinh" id="hinh">
+                                <span class="error" id="hinh-error"></span><br>
                             </div>
-                            <button type="submit" class="btn btn-primary">Thêm Bất Động Sản</button>
+                            <button type="submit" class="btn" style="background-color: #005555; color: white">Thêm Bất Động Sản</button>
                         </form>
                     </div>
                 </div>
             </div>
-                    <script>
+                   <script>
                         function validateForm() {
-                            // Kiểm tra tiêu đề
-                            var tieude = document.getElementById("tieude").value;
-                            if (tieude == "") {
-                                alert("Tiêu đề không được để trống.");
-                                return false;
-                            }
+                       document.querySelectorAll('.error').forEach(function(error) {
+                            error.textContent = '';
+                        });
 
-                            // Kiểm tra giá
-                            var gia = document.getElementById("gia").value;
-                            if (gia == "" || isNaN(gia) || !isDe) {
-                                alert("Giá phải là một số và phải là 1 số dương");
-                                return false;
-                            }
 
-                            // Kiểm tra diện tích
-                            var dientich = document.getElementById("dientich").value;
-                            if (dientich == "" || isNaN(dientich)) {
-                                alert("Diện tích phải là một số.");
-                                return false;
-                            }
-
-                            // Kiểm tra vị trí
-                            var vitri = document.getElementById("vitri").value;
-                            if (vitri == "") {
-                                alert("Vị trí không được để trống.");
-                                return false;
-                            }
-
-                            // Kiểm tra loại bất động sản
-                            var loaibds = document.getElementById("loaibds").value;
-                            if (loaibds == "") {
-                                alert("Vui lòng chọn loại bất động sản.");
-                                return false;
-                            }
-
-                            // Kiểm tra loại hình
-                            var loaihinh = document.getElementById("loaihinh").value;
-                            if (loaihinh == "") {
-                                alert("Loại hình không được để trống.");
-                                return false;
-                            }
-
-                            // Kiểm tra tình trạng pháp lý
-                            var tinhtrangphaply = document.getElementById("tinhtrangphaply").value;
-                            if (tinhtrangphaply == "") {
-                                alert("Tình trạng pháp lý không được để trống.");
-                                return false;
-                            }
-
-                            // Kiểm tra mô tả
-                            var mota = document.getElementById("mota").value;
-                            if (mota == "") {
-                                alert("Mô tả không được để trống.");
-                                return false;
-                            }
-
-                            // Kiểm tra hình minh họa (nếu có)
-                            var hinh = document.getElementById("hinh").value;
-                            if (hinh == "") {
-                                alert("Hình minh họa không được để trống.");
-                                return false;
-                            }
-
-                            // Nếu tất cả các trường đều hợp lệ, cho phép form được gửi đi
-                            return true;
+                        // Tiêu đề: không rỗng, từ 25 đến 100 ký tự
+                        var tieude = document.getElementById("tieude").value.trim();
+                        if (tieude.length < 25 || tieude.length > 100) {
+                            document.getElementById("tieude-error").textContent = "Tiêu đề không được bỏ trống";
+                            return false;
                         }
-                    </script>
+
+                        // Giá: là số, từ 7 đến 13 ký tự
+                        var gia = document.getElementById("gia").value.trim();
+                        if (gia === "" || isNaN(gia) || gia.length > 13) {
+                             document.getElementById("gia-error").textContent = "Giá phải là số (ví dụ: 2000000) ";
+                            return false;
+                        }
+
+                        // Diện tích: là số, từ 2 đến 10 ký tự
+                        var dientich = document.getElementById("dientich").value.trim();
+                        if (dientich === "" || isNaN(dientich) || dientich.length < 2 || dientich.length > 10) {
+                            document.getElementById("dientich-error").textContent = "Diện tích phải là số (ví dụ : 70)";
+                            return false;
+                        }
+
+                        // Vị trí: không rỗng, từ 30 đến 200 ký tự
+                        var vitri = document.getElementById("vitri").value.trim();
+                        if (vitri.length < 30 || vitri.length > 200) {
+                            document.getElementById("vitri-error").textContent = "Vị trí không rỗng và từ 30 đến 200 ký tự";
+                            return false;
+                        }
+                            var khuvuc = document.getElementById("khuvuc").value.trim();
+                            if (khuvuc === "") {
+                                document.getElementById("khuvuc-error").textContent = "Tỉnh thành không được bỏ trống";
+                                return false;
+                            }
+                        // Loại bất động sản: không rỗng
+                        var loaibds = document.getElementById("loaibds").value.trim();
+                        if (loaibds === "") {
+                             document.getElementById("loaibds-error").textContent = "Loại bất động sản không được bỏ trống";
+                            return false;
+                        }
+
+                        // Loại hình: không rỗng, từ 5 đến 20 ký tự
+                        var loaihinh = document.getElementById("loaihinh").value.trim();
+                        if (loaihinh.length < 5 || loaihinh.length > 20) {
+                            document.getElementById("loaihinh-error").textContent = "Không được bỏ trống và từ 5 đến 20 ký tự";
+                            return false;
+                        }
+
+                        // Tình trạng pháp lý: không rỗng, từ 5 đến 50 ký tự
+                        var tinhtrangphaply = document.getElementById("tinhtrangphaply").value.trim();
+                        if (tinhtrangphaply.length < 5 || tinhtrangphaply.length > 50) {
+                            document.getElementById("tinhtrangphaply-error").textContent = "Tình trạng pháp lý không được bỏ trống";
+                            return false;
+                        }
+                        var mota = document.getElementById("mota").value.trim();
+                        if (mota.length < 10 || mota.length > 1500) {
+                            document.getElementById("mota-error").textContent = "Mô tả phải từ 10 đến 1500 ký tự";
+                            return false;
+                        }
+
+                        // Hình ảnh: không rỗng và đúng định dạng
+                        var hinh = document.getElementById("hinh").value;
+                        if (hinh === "") {
+                            document.getElementById("hinh-error").textContent = "Ảnh không được bỏ trống.";
+                            return false;
+                        }
+
+                        var allowedExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp"];
+                        var fileExtension = hinh.substring(hinh.lastIndexOf('.')).toLowerCase();
+                        if (!allowedExtensions.includes(fileExtension)) {
+                            alert("Vui lòng chỉ chọn ảnh định dạng: .jpg, .jpeg, .png, .gif, .bmp.");
+                            return false;
+                        }
+
+                        return true;
+                    }
+                </script>
 
                 </div>
     </div>

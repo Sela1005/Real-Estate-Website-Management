@@ -1,51 +1,182 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">Bảng điều khiển</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">Bảng điều khiển</li>
         </ol>
+
         <div class="row">
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-success text-white mb-4">
-                    <div class="card-body">Quản lý người dùng</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="~/Quanly/quanlynguoidung">Xem chi tiết</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card bg-primary text-white mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="h5">Tổng tin đăng</div>
+                                <div class="h3">@ViewBag.listTotalBDS[0][0]</div>
+                            </div>
+                            <i class="fas fa-newspaper fa-3x opacity-50"></i>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-success text-white mb-4">
-                    <div class="card-body">Quản lý tin đăng</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="small text-white stretched-link" href="/Quanly/Quanlybatdongsan">Xem chi tiết</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-6">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-chart-area me-1"></i>
-                        Area Chart Example
+            <div class="col-xl-4 col-md-6">
+                <div class="card bg-success text-white mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="h5">Tổng số người dùng</div>
+                                <div class="h3">@ViewBag.listTotalUser[0][0]</div>
+                            </div>
+                            <i class="fas fa-users fa-3x opacity-50"></i>
+                        </div>
                     </div>
-                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white stretched-link" href="~/Quanly/quanlynguoidung">Xem chi tiết</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
                 </div>
             </div>
-            <div class="col-xl-6">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-chart-bar me-1"></i>
-                        Bar Chart Example
+            
+        </div>
+        <div class="row d-flex">
+            <!-- CỘT BIỂU ĐỒ TIN ĐĂNG (BÊN TRÁI) -->
+            <!-- Thêm class "pe-lg-4" để tạo khoảng cách với đường kẻ và "border-end" để tạo đường kẻ -->
+            <div class="col-xl-6 pe-lg-4 border-end">
+                <div class="card mb-4 h-100">
+                    <!-- Đã chuyển bộ lọc năm vào đây -->
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>
+                            <i class="fas fa-chart-area me-1"></i>
+                            Biểu đồ tin đăng theo tháng
+                        </span>
+
+                        <!-- BỘ LỌC NĂM NẰM Ở ĐÂY -->
+                        <div class="col-md-6 col-lg-5">
+                            <form id="year-filter-form" method="get" action="@Url.Action("Index", "Quanly")" class="mb-0">
+                                <div class="input-group input-group-sm">
+                                    <select class="form-select" id="year-select" name="nam" onchange="this.form.submit()">
+                                        @foreach (var year in ViewBag.AvailableYears)
+                                        {
+                                            <option value="@year" @(year == ViewBag.SelectedYear ? "selected" : "")>Năm @year</option>
+                                        }
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+
+                    <div class="card-body">
+                        <canvas id="listingsChart"></canvas>
+                    </div>
+                    <div class="card-footer small text-muted">
+                        Dữ liệu năm @ViewBag.SelectedYear
+                    </div>
+                </div>
+            </div>
+
+            <!-- CỘT BIỂU ĐỒ MỤC TIÊU (BÊN PHẢI) -->
+            <!-- Thêm class "ps-lg-4" để tạo khoảng cách với đường kẻ -->
+            <div class="col-xl-6 ps-lg-4">
+                <div class="card mb-4 h-100">
+                    <div class="card-header">
+                        <i class="fas fa-chart-pie me-1"></i>
+                        Mục tiêu người dùng
+                    </div>
+                    <div class="card-body d-flex justify-content-center align-items-center">
+                        <canvas id="userGoalChart"></canvas>
+                    </div>
+                    <div class="card-footer small text-muted text-center">
+                        Đang hiển thị tiến độ đạt mục tiêu 500 người dùng
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // --- BIỂU ĐỒ 1: TIN ĐĂNG THEO THÁNG ---
+            const chartLabels = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+            const listingData = @Html.Raw(Json.Encode(ViewBag.ListingData));
+
+            var ctxListings = document.getElementById('listingsChart').getContext('2d');
+            var listingsChart = new Chart(ctxListings, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Số tin đăng',
+                        data: listingData,
+                        backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // --- BIỂU ĐỒ 2: MỤC TIÊU NGƯỜI DÙNG ---
+            const currentUserCount = @ViewBag.listTotalUser[0][0];
+            const userGoal = 500;
+            const remainingUsers = Math.max(0, userGoal - currentUserCount);
+
+            const goalData = {
+                labels: ['Người dùng hiện tại', 'Còn lại'],
+                datasets: [{
+                    label: 'Số lượng người dùng',
+                    data: [currentUserCount, remainingUsers],
+                    backgroundColor: ['rgb(40, 167, 69)', 'rgb(230, 230, 230)'],
+                    hoverOffset: 4
+                }]
+            };
+
+            var ctxGoal = document.getElementById('userGoalChart').getContext('2d');
+            var userGoalChart = new Chart(ctxGoal, {
+                type: 'doughnut',
+                data: goalData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: currentUserCount + ' / ' + userGoal + ' Người dùng',
+                            font: {
+                                size: 18
+                            }
+                        }
+                    }
+                }
+            });
+        });
+</script>

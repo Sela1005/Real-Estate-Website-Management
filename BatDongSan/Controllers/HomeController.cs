@@ -17,6 +17,12 @@ namespace BatDongSan.Controllers
         {
             DataModel db = new DataModel();
             ViewBag.list = db.get("Select * from BatDongSan");
+            ViewBag.listCountHCM = db.get("EXEC DEMBDSTHEOKHUVUC N'Ho chi minh' ");
+            ViewBag.listCountHaNoi= db.get("EXEC DEMBDSTHEOKHUVUC N'Ha Noi' ");
+            ViewBag.listCountAnGiang = db.get("EXEC DEMBDSTHEOKHUVUC N'An Giang' ");
+            ViewBag.listCountBinhDuong = db.get("EXEC DEMBDSTHEOKHUVUC N'Binh Duong' ");
+            ViewBag.listCountCaMau = db.get("EXEC DEMBDSTHEOKHUVUC N'Ca Mau' ");
+
             return View();
         }
 
@@ -101,6 +107,7 @@ namespace BatDongSan.Controllers
                                 HttpPostedFileBase hinh,
                                 string dientich,
                                 string vitri,
+                                string khuvuc,
                                 string idnguoidung,
                                 string loaibds,
                                 string loaihinh,
@@ -113,7 +120,7 @@ namespace BatDongSan.Controllers
                     TempData["ErrorMessage"] = "tên dự án phải từ 25 đến 100 ký tự và không được bỏ trống.";
                     return RedirectToAction("DangTin", "Home");
                 }
-                if (string.IsNullOrEmpty(gia) || !decimal.TryParse(gia, out decimal giaDecimal) || giaDecimal.ToString().Length < 7 || giaDecimal.ToString().Length > 13)
+                if (string.IsNullOrEmpty(gia) || !decimal.TryParse(gia, out decimal giaDecimal)  || giaDecimal.ToString().Length > 13)
                 {
                     TempData["ErrorMessage"] = "Giá phải là một số từ 7 đến 13 ký tự.";
                     return RedirectToAction("DangTin", "Home");
@@ -126,6 +133,11 @@ namespace BatDongSan.Controllers
                 if (string.IsNullOrEmpty(vitri) || vitri.Length < 30 || vitri.Length > 200)
                 {
                     TempData["ErrorMessage"] = "Vị trí phải từ 30 đến 200 ký tự và không được bỏ trống.";
+                    return RedirectToAction("DangTin", "Home");
+                }
+                if (string.IsNullOrEmpty(khuvuc))
+                {
+                    TempData["ErrorMessage"] = "Khu vực không được bỏ trống";
                     return RedirectToAction("DangTin", "Home");
                 }
                 if (string.IsNullOrEmpty(loaibds))
@@ -193,10 +205,10 @@ namespace BatDongSan.Controllers
                     var resizedImg = new Bitmap(img, new Size(newWidth, newHeight));
                     resizedImg.Save(path);
                 }
-
+                string diachi = vitri + ", "+ khuvuc;
                 // Lưu thông tin vào cơ sở dữ liệu
                 DataModel db = new DataModel(); 
-                db.get("exec ThemBDS N'" + tieude + "', N'" + mota + "', " + gia + ", " + dientich + ", N'" + vitri + "', " + idnguoidung + ", N'" + loaibds + "', N'" + loaihinh + "', N'" + tinhtrangphaply + "', '" + uniqueFileName + "'");
+                db.get("exec ThemBDS N'" + tieude + "', N'" + mota + "', " + gia + ", " + dientich + ", N'" + diachi + "', " + idnguoidung + ", N'" + loaibds + "', N'" + loaihinh + "', N'" + tinhtrangphaply + "', '" + uniqueFileName + "'");
                 TempData["SuccessMessage"] = "Đăng tin thành công!";
                 return RedirectToAction("QuanLyTinDang", "Home");
             }
@@ -674,6 +686,100 @@ namespace BatDongSan.Controllers
             }
             return RedirectToAction("Properties_Detail", "Home", new { id = idbatdongsan, idNguoiDung = idchubds });
         }
+        public ActionResult SapXepTheoKhuVuc(string khuvuc)
+        {
 
+            if (string.IsNullOrEmpty(khuvuc))
+            {
+                TempData["ErrorMessage"] = "Bạn chưa chọn khu vực";
+                return RedirectToAction("Properties", "Home");
+            }
+            try
+            {
+                DataModel db = new DataModel();
+                ViewBag.list = db.get("EXEC BDSTheoKhuVuc N'" + khuvuc + "' ");
+               
+
+            }
+            catch (Exception) { return RedirectToAction("Index", "Home"); }
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Doimatkhau(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["ErrorMessage"] = "Lỗi! Không thể tìm thấy người dùng.";
+                return RedirectToAction("Index", "Home");
+            }
+            try
+            {
+                DataModel db = new DataModel();
+                ViewBag.listUser = db.get("exec TIMKIEMNguoiDungTHEOID " + id + ";");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View();
+        }
+
+        // Action để XỬ LÝ khi người dùng bấm nút "Đổi mật khẩu"
+        [HttpPost]
+        public ActionResult Doimatkhau(string matkhaucu, string matkhaumoi, string confirm, string idnguoidung)
+        {
+            // Kiểm tra người dùng đã đăng nhập chưa
+            if (Session["taikhoan"] == null)
+            {
+                TempData["ErrorMessage"] = "Vui lòng đăng nhập.";
+                return RedirectToAction("DangNhap", "Home");
+            }
+
+            // Kiểm tra mật khẩu mới có khớp không
+            if (matkhaumoi != confirm)
+            {
+                TempData["ErrorMessage"] = "Mật khẩu mới và xác nhận mật khẩu không khớp.";
+                // LỖI CŨ: Chỗ này thiếu return. Người dùng thấy lỗi nhưng không ở lại trang.
+                // SỬA LẠI: Quay lại trang Doimatkhau để hiển thị lỗi
+                return RedirectToAction("Doimatkhau", "Home", new { id = idnguoidung });
+            }
+            DataModel db = new DataModel();
+            // Gọi procedure để đổi mật khẩu
+            ViewBag.list = db.get("exec CapNhatMatKhau " + idnguoidung + ", '" + matkhaucu + "', '" + matkhaumoi + "'");
+            // Kiểm tra kết quả trả về
+            if (ViewBag.list.Count > 0)
+            {
+                int result = Convert.ToInt32(ViewBag.list[0][0]);
+
+                if (result == 1)
+                {
+                    // Đăng ký thành công
+                    TempData["SuccessMessage"] = "Đổi mật khẩu thành công!";
+                    return RedirectToAction("ThongTinNguoiDung", "Home", new { id = idnguoidung });
+                }
+                else if (result == 0)
+                {
+                    TempData["ErrorMessage"] = "Mật khẩu cũ không chính xác";
+                    return RedirectToAction("Doimatkhau", "Home", new { id = idnguoidung });
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Đã có lỗi xảy ra. Vui lòng thử lại.";
+                    return RedirectToAction("Doimatkhau", "Home", new { id = idnguoidung });
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Đã có lỗi xảy ra. Vui lòng thử lại.";
+                return RedirectToAction("ThongTinNguoiDung", "Home", new { id = idnguoidung });
+            }
+        }
+
+
+        public ActionResult QuenMatKhau()
+        {
+            return View();
+        }
     }
 }
