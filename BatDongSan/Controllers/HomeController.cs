@@ -399,13 +399,27 @@ namespace BatDongSan.Controllers
                 return RedirectToAction("SuaBDS", "Home", new { id = idnguoidung });
             }
         }
-        public ActionResult Properties()
+        public ActionResult Properties(string khuvuc, string sapXep)
         {
             DataModel db = new DataModel();
-            ViewBag.list = db.get("Select * from BatDongSan");
+
+            string kieuSapXep = "ASC";
+            if (!string.IsNullOrEmpty(sapXep) && sapXep.ToUpper() == "DESC")
+            {
+                kieuSapXep = "DESC";
+            }
+
+            string khuVucParam = string.IsNullOrEmpty(khuvuc) ? "NULL" : "N'" + khuvuc + "'";
+
+            var danhSach = db.get("EXEC TimKiemVaSapXepBDS @KhuVuc = " + khuVucParam + ", @SapXepTheo = '" + kieuSapXep + "'");
+
+            ViewBag.list = danhSach;
+            ViewBag.SapXepHienTai = kieuSapXep;
+            ViewBag.KhuVucHienTai = khuvuc;
+
             return View();
         }
-        
+
         public ActionResult Properties_Detail(string id, string idNguoiDung)
         {
             if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(idNguoiDung) || !int.TryParse(id, out _) || !int.TryParse(idNguoiDung, out _))
@@ -686,24 +700,6 @@ namespace BatDongSan.Controllers
             }
             return RedirectToAction("Properties_Detail", "Home", new { id = idbatdongsan, idNguoiDung = idchubds });
         }
-        public ActionResult SapXepTheoKhuVuc(string khuvuc)
-        {
-
-            if (string.IsNullOrEmpty(khuvuc))
-            {
-                TempData["ErrorMessage"] = "Bạn chưa chọn khu vực";
-                return RedirectToAction("Properties", "Home");
-            }
-            try
-            {
-                DataModel db = new DataModel();
-                ViewBag.list = db.get("EXEC BDSTheoKhuVuc N'" + khuvuc + "' ");
-               
-
-            }
-            catch (Exception) { return RedirectToAction("Index", "Home"); }
-            return View();
-        }
         [HttpGet]
         public ActionResult Doimatkhau(string id)
         {
@@ -724,8 +720,6 @@ namespace BatDongSan.Controllers
 
             return View();
         }
-
-        // Action để XỬ LÝ khi người dùng bấm nút "Đổi mật khẩu"
         [HttpPost]
         public ActionResult Doimatkhau(string matkhaucu, string matkhaumoi, string confirm, string idnguoidung)
         {
@@ -780,6 +774,85 @@ namespace BatDongSan.Controllers
         public ActionResult QuenMatKhau()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult QuenMatKhau(string email)
+        {
+            DataModel db = new DataModel();
+            var resultList = db.get("EXEC SP_GeneratePasswordResetOTP '" + email + "'");
+
+            if (resultList != null && resultList.Count > 0)
+            {
+                ArrayList row = resultList[0] as ArrayList;
+                if (row[0] != null)
+                {
+                    string otp = row[0].ToString();
+
+                    try
+                    {
+                        string emailSubject = "Mã OTP đặt lại mật khẩu";
+                        string emailBody = "<h3>Mã OTP của bạn là: " + otp + "</h3><p>Mã này sẽ hết hạn sau 5 phút.</p>";
+                        EmailService.Send(email, emailSubject, emailBody);
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ErrorMessage"] = "Không thể gửi email. Vui lòng kiểm tra lại cấu hình. Lỗi: " + ex.Message;
+                        return RedirectToAction("QuenMatKhau");
+                    }
+
+                    TempData["ResetEmail"] = email;
+                    TempData["SuccessMessage"] = "Mã OTP đã được gửi. Vui lòng kiểm tra email của bạn.";
+                    return RedirectToAction("ResetPassword");
+                }
+            }
+
+            TempData["ErrorMessage"] = "Email không tồn tại trong hệ thống.";
+            return RedirectToAction("QuenMatKhau");
+        }
+        public ActionResult ResetPassword()
+        {
+            if (TempData["ResetEmail"] == null)
+            {
+                return RedirectToAction("QuenMatKhau");
+            }
+            ViewBag.Email = TempData["ResetEmail"];
+            TempData.Keep("ResetEmail");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(string email, string otp, string newPassword, string confirmPassword)
+        {
+            if (newPassword != confirmPassword)
+            {
+                TempData["ErrorMessage"] = "Mật khẩu mới và xác nhận mật khẩu không khớp.";
+                return RedirectToAction("ResetPassword");
+            }
+
+            DataModel db = new DataModel();
+            var resultList = db.get("EXEC SP_ResetPasswordWithOTP '" + email + "', '" + otp + "', '" + newPassword + "'");
+
+            if (resultList != null && resultList.Count > 0)
+            {
+                ArrayList row = resultList[0] as ArrayList;
+                int result = Convert.ToInt32(row[0]);
+
+                if (result == 1)
+                {
+                    TempData["SuccessMessage"] = "Mật khẩu của bạn đã được cập nhật thành công!";
+                    return RedirectToAction("dangnhap", "Home");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Mã OTP không chính xác hoặc đã hết hạn.";
+                    return RedirectToAction("ResetPassword");
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Đã có lỗi xảy ra. Vui lòng thử lại.";
+                return RedirectToAction("ResetPassword");
+            }
         }
     }
 }

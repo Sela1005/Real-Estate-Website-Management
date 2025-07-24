@@ -354,9 +354,9 @@
     <Content Include="Views\QuanLy\XoaNguoiDung.cshtml" />
     <Content Include="Views\QuanLy\SuaNguoiDung.cshtml" />
     <Content Include="Views\Home\DanhSachYeuThichNguoiDung.cshtml" />
-    <Content Include="Views\Home\SapXepTheoKhuVuc.cshtml" />
     <Content Include="Views\Home\Doimatkhau.cshtml" />
     <Content Include="Views\Home\QuenMatKhau.cshtml" />
+    <Content Include="Views\Home\ResetPassword.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
